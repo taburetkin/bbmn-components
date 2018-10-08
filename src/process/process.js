@@ -1,7 +1,3 @@
-// import mix from '../../utils/mix/index.js';
-// import triggerMethodOn from '../../utils/trigger-method-on/index.js';
-// import camelCase from '../../utils/camel-case/index.js';
-// import result from '../../utils/better-result/index.js';
 
 import { mix, triggerMethodOn, camelCase, betterResult as result } from 'bbmn-utils';
 import { isPromisable, race, asArray, valueToPromise } from './helpers.js';
