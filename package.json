@@ -55,7 +55,7 @@
     "underscore": "^1.9.1"
   },
   "dependencies": {
-    "bbmn-core": ">=1.0.0",
-    "bbmn-utils": ">=1.0.0"
+    "bbmn-core": ">1.0.0",
+    "bbmn-utils": ">1.0.0"
   }
 }
