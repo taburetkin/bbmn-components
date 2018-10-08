@@ -1,0 +1,42 @@
+{
+    "env": {
+        "browser": true,
+        "commonjs": true,
+		"es6": true,
+		"jquery": true
+    },
+    "extends": "eslint:recommended",
+    "parserOptions": {
+        "sourceType": "module"
+	},
+	"globals": {
+		"$": true,
+		"_":true,
+		"Mn":true,
+		"Bb":true,
+		"Backbone":true,
+		"Popper": true,
+		"Console": true,
+		"moment": true
+	},
+    "rules": {
+		"no-console":"warn",
+        "indent": [
+            "warn",
+            "tab"
+        ],
+        "linebreak-style": [
+            "off",
+            "windows"
+        ],
+        "quotes": [
+            "warn",
+            "single"
+        ],
+        "semi": [
+            "warn",
+            "always"
+		],
+		"no-unused-vars":"warn"
+    }
+}
