@@ -13,12 +13,12 @@ let babelConfig = {
 };
 
 let rollupGlobals = {
-	'backbone': 'Backbone',
-	'backbone.marionette': 'Mn',
-	'jquery': '$',
-	'underscore': '_',
-	'bbmn-core': 'bbmn',
-	'bbmn-utils': 'bbmn.utils',
+	// 'backbone': 'Backbone',
+	// 'backbone.marionette': 'Mn',
+	// 'jquery': '$',
+	// 'underscore': '_',
+	// 'bbmn-core': 'bbmn',
+	// 'bbmn-utils': 'bbmn.utils',
 };
 
 let testExternals = ['backbone', 'backbone.marionette', 'underscore'];

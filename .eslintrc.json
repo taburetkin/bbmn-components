@@ -2,22 +2,13 @@
     "env": {
         "browser": true,
         "commonjs": true,
-		"es6": true,
-		"jquery": true
+		"es6": true
     },
     "extends": "eslint:recommended",
     "parserOptions": {
         "sourceType": "module"
 	},
 	"globals": {
-		"_$": true,
-		"__":true,
-		"_Mn":true,
-		"_Bb":true,
-		"_Backbone":true,
-		"_Popper": true,
-		"_Console": true,
-		"_moment": true
 	},
     "rules": {
 		"no-console":"warn",
