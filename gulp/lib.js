@@ -5,7 +5,7 @@ import babel from 'rollup-plugin-babel';
 import resolve from 'rollup-plugin-node-resolve';
 import size from 'gulp-size';
 import json from 'rollup-plugin-json';
-
+import addImports from './add-imports';
 let babelConfig = {
 	presets: [['env', { modules: false }]],
 	babelrc: false,
@@ -29,6 +29,7 @@ let getRollupConfig = (format, babelcfg = babelConfig) => {
 		allowRealFiles: true,
 		plugins: [
 			json(),
+			//addImports(),
 			resolve({
 				module: true,
 			}),
@@ -52,8 +53,8 @@ function lib(format) {
 		// note that UMD and IIFE format requires `name` but it will be inferred from the source file name `mylibrary.js`
 		.pipe(rollup(rollupConfig))
 		// save sourcemap as separate file (in the same folder)
+		.pipe(size({ title: format, showFiles: true}))
 		.pipe(sourcemaps.write(''))
-		.pipe(size())
 		.pipe(gulp.dest('lib/' + format));
 }
 
@@ -66,8 +67,8 @@ export function rollupForTest(name)
 		// note that UMD and IIFE format requires `name` but it will be inferred from the source file name `mylibrary.js`
 		.pipe(rollup(rollupConfig))
 		// save sourcemap as separate file (in the same folder)
+		.pipe(size({ title: format, showFiles: true}))
 		.pipe(sourcemaps.write(''))
-		.pipe(size())
 		.pipe(gulp.dest('test/lib'));
 
 }

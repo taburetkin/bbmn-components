@@ -10,14 +10,14 @@
         "sourceType": "module"
 	},
 	"globals": {
-		"$": true,
-		"_":true,
-		"Mn":true,
-		"Bb":true,
-		"Backbone":true,
-		"Popper": true,
-		"Console": true,
-		"moment": true
+		"_$": true,
+		"__":true,
+		"_Mn":true,
+		"_Bb":true,
+		"_Backbone":true,
+		"_Popper": true,
+		"_Console": true,
+		"_moment": true
 	},
     "rules": {
 		"no-console":"warn",

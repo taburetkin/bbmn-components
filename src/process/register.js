@@ -1,4 +1,4 @@
-
+import _ from 'underscore';
 export default function registerProcess (Process, context, name, opts) {
 
 	context[name] = function(...args){

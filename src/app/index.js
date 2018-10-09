@@ -1,3 +1,4 @@
+import _ from 'underscore';
 import { BaseClass, Events } from 'bbmn-core';
 import { StartableMixin } from '../process/index.js';
 import { mix } from 'bbmn-utils';

@@ -1,3 +1,4 @@
+import _ from 'underscore';
 import Process from './process.js';
 
 const defaultStartableOptions  = {

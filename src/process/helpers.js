@@ -1,3 +1,5 @@
+import _ from 'underscore';
+
 export function isPromisable(arg){
 	return arg instanceof Promise || _.isFunction(arg && arg.then);
 }

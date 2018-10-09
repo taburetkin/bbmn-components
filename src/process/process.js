@@ -1,4 +1,4 @@
-
+import _ from 'underscore';
 import { triggerMethodOn, camelCase, betterResult as result } from 'bbmn-utils';
 import { isPromisable, race, asArray, valueToPromise } from './helpers.js';
 import { BaseClass } from 'bbmn-core';
