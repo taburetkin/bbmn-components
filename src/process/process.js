@@ -236,7 +236,9 @@ const Process = BaseClass.extend({
 	}
 
 }, {
-	register
+	register(context, name, opts) {
+		return register(this, context, name, opts);
+	}
 });
 
 
