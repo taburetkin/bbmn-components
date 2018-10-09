@@ -31,5 +31,8 @@ export default BaseApp.extend({
 			}
 		});
 	},
+	addStartPromise(...args){
+		this._startPromises.push(...args);
+	},
 	initialize:() => {},
 });
