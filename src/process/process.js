@@ -1,12 +1,16 @@
 
-import { mix, triggerMethodOn, camelCase, betterResult as result } from 'bbmn-utils';
+import { triggerMethodOn, camelCase, betterResult as result } from 'bbmn-utils';
 import { isPromisable, race, asArray, valueToPromise } from './helpers.js';
+import { BaseClass } from 'bbmn-core';
 
 import register from './register.js';
 
 
-const Process = mix({
-	constructor: function Process(context, name, opts){
+const Process = BaseClass.extend({
+	constructor(context, name, opts){
+		
+		BaseClass.apply(this, arguments);
+
 		this._initDefaults(name, context);
 		this._initCancelation();
 		this._mergeOptions(opts);
@@ -231,11 +235,13 @@ const Process = mix({
 
 	}
 
-}).class;
+}, {
+	register
+});
 
 
-Process.register = function(context, name, opts) {
-	return register(this, context, name, opts);
-};
+// Process.register = function(context, name, opts) {
+// 	return register(this, context, name, opts);
+// };
 
 export default Process;

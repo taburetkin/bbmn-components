@@ -1,5 +1,5 @@
 
-export default function (Process, context, name, opts) {
+export default function registerProcess (Process, context, name, opts) {
 
 	context[name] = function(...args){
 		
