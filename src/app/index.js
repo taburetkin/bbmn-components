@@ -1,13 +1,16 @@
 import _ from 'underscore';
 import { BaseClass, Events } from 'bbmn-core';
 import { StartableMixin } from '../process/index.js';
-import { mix } from 'bbmn-utils';
+import { mix, getOption } from 'bbmn-utils';
 
 const BaseApp = mix(BaseClass).with(Events, StartableMixin);
 
 export default BaseApp.extend({
 	constructor(){
 		BaseApp.apply(this, arguments);
+	},
+	getOption(){
+		return getOption(this, ...arguments);
 	},
 	getStartPromises(){
 		

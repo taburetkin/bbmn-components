@@ -1,5 +1,6 @@
 import _ from 'underscore';
 import Process from './process.js';
+import { getOption } from 'bbmn-utils';
 
 const defaultStartableOptions  = {
 	concurrent: false,
@@ -82,10 +83,10 @@ export default Base => Base.extend({
 	_initializeStartable(){
 		if (this._startableInitialized) return;
 
-		let startable = _.extend({}, defaultStartableOptions, this.getOption('startableOptions', {args:[this]}));
+		let startable = _.extend({}, defaultStartableOptions, getOption(this, 'startableOptions', {args:[this]}));
 
-		let start = _.extend({}, startable, defaultStartOptions, this.getOption('startOptions', {args:[this]}));
-		let stop = _.extend({}, startable, defaultStopOptions, this.getOption('stopOptions', {args:[this]}));
+		let start = _.extend({}, startable, defaultStartOptions, getOption(this, 'startOptions', {args:[this]}));
+		let stop = _.extend({}, startable, defaultStopOptions, getOption(this, 'stopOptions', {args:[this]}));
 
 		Process.register(this, 'start', start);
 		Process.register(this, 'stop', stop);
