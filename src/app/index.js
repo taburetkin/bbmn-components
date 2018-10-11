@@ -56,32 +56,26 @@ export default BaseApp.extend({
 		this._region = this.buildRegion();
 		return this._region;
 	},
-	buildRegion(){
-		let region = this.getOption('region', { args: [this] }) || {};
-		let el = this.getOption('appEl') || 'body';
-		let replaceElement = true;
-		let opts = { el, replaceElement };
-		let RegionClass = Region;
-
+	_buildRegion(region, options){
 		if (isClass(region, Region)) {
-			RegionClass = region;
-			region = {};
+			return new region(options);
 		} else if (_.isFunction(region)) {
-			let runtime = region.call(this, this);
-			if(isClass(runtime, Region)){
-				RegionClass = runtime;
-				region = {};
-			} else {
-				region = runtime;
+			return this._buildRegion(region.call(this, this), options);
+		} else if (_.isObject(region)) {
+			let RegionClass = region.regionClass || Region;
+			let newOptions = _.extend({}, _.omit(region, 'regionClass'));
+			if(!newOptions.el) {
+				newOptions.el = options.el;
 			}
+			if(newOptions.replaceElement == null) {
+				newOptions.replaceElement = options.replaceElement;
+			}
+			return new RegionClass(newOptions);
 		}
-		let options = _.pick(_.extend(opts, region), 'regionClass', 'el', 'replaceElement');
-
-		if(isClass(options.regionClass, Region)){
-			RegionClass = options.regionClass;
-			delete options.regionClass;
-		}
-
-		return new RegionClass(options);
+	},
+	buildRegion(){
+		let el = this.getOption('appEl') || 'body';
+		let opts = { el, replaceElement: true };
+		return this._buildRegion(this.getOption('region', { args: [this] }), opts);
 	},
 });
