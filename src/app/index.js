@@ -42,8 +42,15 @@ export default BaseApp.extend({
 	},
 	renderLayout(options){
 		if (!this.layoutView) {
-			this.layoutView = this.buildLayout(options);
-			if(!this.layoutView) { return; }
+			let layout = this.buildLayout(options);
+			if(!layout) { return; }
+
+			//Mn v4 has this little bug, if layout is pointed to exist element and its equal reqion el render will not happens
+			if(layout._isRendered && _.isFunction(layout.template)) {
+				layout._isRendered = false;
+			}
+
+			this.layoutView = layout;
 		}
 		let region = this.getRegion();
 		region.show(this.layoutView);
