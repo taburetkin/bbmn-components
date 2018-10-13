@@ -5,7 +5,8 @@ import { View, CollectionView } from './views';
 export {
 	Process, startableMixin,
 	App,
-	ModelSchemas, ModelSchema, PropertySchema
+	ModelSchemas, ModelSchema, PropertySchema,
+	View, CollectionView
 };
 
 export default {
