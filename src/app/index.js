@@ -1,9 +1,9 @@
 import _ from 'underscore';
 import { BaseClass, Events, Region, isClass } from 'bbmn-core';
-import { StartableMixin } from '../process/index.js';
+import { startableMixin } from '../process/index.js';
 import { mix, getOption, triggerMethod, buildViewByKey } from 'bbmn-utils';
 
-const BaseApp = mix(BaseClass).with(Events, StartableMixin);
+const BaseApp = mix(BaseClass).with(Events, startableMixin);
 
 export default BaseApp.extend({
 	constructor(options = {}){

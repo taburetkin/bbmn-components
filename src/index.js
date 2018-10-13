@@ -1,15 +1,14 @@
-import StartableMixin from './process/startable-mixin.js';
-import Process from './process/process.js';
+import { startableMixin, Process} from './process/index.js';
 import App from './app/index.js';
 
 export {
 	Process,
-	StartableMixin,
+	startableMixin,
 	App
 };
 
 export default {
 	Process,
-	StartableMixin,
+	startableMixin,
 	App
 };
