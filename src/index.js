@@ -5,13 +5,14 @@ import { View, CollectionView } from './views';
 import validator from './validator';
 import User from './user';
 import BearerToken from './bearer-token';
-
+import ViewStack from './view-stack';
 export {
 	Process, startableMixin,
 	App,
 	ModelSchemas, ModelSchema, PropertySchema,
 	validator,
 	User, BearerToken,
+	ViewStack,
 	View, CollectionView,
 };
 
@@ -21,5 +22,6 @@ export default {
 	ModelSchemas, ModelSchema, PropertySchema,
 	validator,
 	User, BearerToken,
+	ViewStack,
 	View, CollectionView
 };
