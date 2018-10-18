@@ -6,6 +6,8 @@ import validator from './validator';
 import User from './user';
 import BearerToken from './bearer-token';
 import ViewStack from './view-stack';
+import store from './store';
+
 export {
 	Process, startableMixin,
 	App,
@@ -13,6 +15,7 @@ export {
 	validator,
 	User, BearerToken,
 	ViewStack,
+	store,
 	View, CollectionView,
 };
 
@@ -23,5 +26,6 @@ export default {
 	validator,
 	User, BearerToken,
 	ViewStack,
+	store,
 	View, CollectionView
 };
