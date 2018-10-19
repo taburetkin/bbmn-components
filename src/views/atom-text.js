@@ -72,6 +72,12 @@ const AtomText = View.extend({
 		return !isEmptyValue(this.getBottomText());
 	},	
 	getBottomText(){ return this._getText('bottomText'); },
+
+	templateContext(){
+		return {
+			_v: this,
+		};
+	}
 }, {
 	small(arg1, arg2){
 		let defs = { type: 'small' };
