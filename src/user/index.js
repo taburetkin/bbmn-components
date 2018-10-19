@@ -57,6 +57,9 @@ export default Model.extend({
 		});
 	},
 	//override this for getting auth status
+	getState(){
+		return this.isLogged() ? 'auth' : 'anonym';
+	},
 	isLogged(){
 		return this.get('authenticated') === true;
 	},
