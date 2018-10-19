@@ -63,17 +63,30 @@ export default Model.extend({
 	isLogged(){
 		return this.get('authenticated') === true;
 	},
-	refresh(){
-		if(!this.token.hasToken()){
-			this.reflectChanges({ clear: true });
-			return Promise.resolve();
-		} else {
-			return this.fetch().then(() => {
-				this.reflectChanges();
-			}, () => {				
-				this.reflectChanges({ store: false });
-			});
-		}
+	refresh(){		
+		if (this._refreshing) { return this._refreshing; }
+		let promise = this._refreshing = new Promise((resolve) => {
+
+			let finalize = () => {
+				delete this._refreshing;
+				resolve();
+			};
+
+
+			if(!this.token.hasToken()){
+				this.reflectChanges({ clear: true });
+				finalize();				
+			} else {
+				this.fetch().then(() => {
+					this.reflectChanges();
+					finalize();
+				}, () => {				
+					this.reflectChanges({ store: false });
+					finalize();
+				});
+			}
+		});
+		return promise;
 	},
 	reflectChanges(opts = {}){
 		let { silent, clear, store = true } = opts;
