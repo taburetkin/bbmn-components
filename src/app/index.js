@@ -25,7 +25,7 @@ export default BaseApp.extend({
 
 		return _.map(this._startPromises, item =>{
 			if (_.isFunction(item)) {
-				return item.call(this);
+				return item.call(this, this);
 			} else {
 				return item;
 			}
