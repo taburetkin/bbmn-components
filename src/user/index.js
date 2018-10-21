@@ -68,8 +68,8 @@ export default Model.extend({
 		let promise = this._refreshing = new Promise((resolve) => {
 
 			let finalize = () => {
-				delete this._refreshing;
 				resolve();
+				delete this._refreshing;
 			};
 
 
