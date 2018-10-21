@@ -42,7 +42,7 @@ export default Base => Base.extend({
 	},
 	_initializeActionableActions(){
 		if (this._actionableActionsInitialized) return;
-		
+
 		if (ActionStore.isNotInitialized(this.actionsStoreName || this.constructor)) {
 			let instance = betterResult(this, 'actions', { args: [this], default: [] });
 			let inherited = [];
@@ -70,6 +70,11 @@ export default Base => Base.extend({
 	getActions(options = {}){
 		this._initializeActionableActions();
 		return ActionStore.getActions(this.actionsStoreName || this.constructor, options);
+	},
+	getAction(arg, options){
+		let actions = this.getActions(options);
+		let iteratee = _.isString(arg) ? { name: arg } : item => item === arg;
+		return _.findWhere(actions, iteratee);
 	},
 	executeAction(action){
 		this._initializeActionableActions();
