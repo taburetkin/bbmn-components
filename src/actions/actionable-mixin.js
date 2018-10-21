@@ -71,9 +71,13 @@ export default Base => Base.extend({
 		this._initializeActionableActions();
 		return ActionStore.getActions(this.actionsStoreName || this.constructor, options);
 	},
+	hasAction(arg, options){
+		let action = this.getAction(arg, options);
+		return !!action;
+	},
 	getAction(arg, options){
 		let actions = this.getActions(options);
-		let iteratee = _.isString(arg) ? { name: arg } : item => item === arg;
+		let iteratee = _.isString(arg) ? { name: arg } : { name: arg.name };
 		return _.findWhere(actions, iteratee);
 	},
 	executeAction(action){
