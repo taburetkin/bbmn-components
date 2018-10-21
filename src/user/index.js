@@ -66,25 +66,21 @@ export default Model.extend({
 	refresh(){		
 		if (this._refreshing) { return this._refreshing; }
 		let promise = this._refreshing = new Promise((resolve) => {
-
-			let finalize = () => {
-				resolve();
-				delete this._refreshing;
-			};
-
-
-			if(!this.token.hasToken()){
+			if (!this.token.hasToken()) {
 				this.reflectChanges({ clear: true });
-				finalize();				
+				resolve();
 			} else {
 				this.fetch().then(() => {
 					this.reflectChanges();
-					finalize();
+					resolve();
 				}, () => {				
 					this.reflectChanges({ store: false });
-					finalize();
+					resolve();
 				});
 			}
+		});		
+		promise.then(() => {
+			delete this._refreshing;
 		});
 		return promise;
 	},
