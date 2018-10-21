@@ -8,6 +8,7 @@ import BearerToken from './bearer-token';
 import ViewStack from './view-stack';
 import store from './store';
 import { notify, notifies, Notifier } from './notifier';
+import { Action, ActionStore, actionableMixin, action } from './actions';
 export {
 	Process, startableMixin,
 	App,
@@ -18,6 +19,7 @@ export {
 	store,
 	View, CollectionView, AtomText,
 	notify, notifies, Notifier,
+	Action, ActionStore, actionableMixin, action,
 };
 
 export default {
@@ -29,5 +31,6 @@ export default {
 	ViewStack,
 	store,
 	View, CollectionView, AtomText,
-	notify, notifies, Notifier
+	notify, notifies, Notifier,
+	Action, ActionStore, actionableMixin, action
 };
