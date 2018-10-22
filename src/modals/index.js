@@ -34,8 +34,6 @@ function normalizeConfirmFooter(opts = {}){
 	if(!opts.footerOptions) {
 		opts.footerOptions = {};
 	}
-	
-	opts.modalType = 'confirm';
 
 	let fopts = opts.footerOptions;
 	fopts.resolveWith = takeFirst('resolveWith', fopts, opts);
@@ -50,6 +48,8 @@ function confirm(arg, showOptions = {}) {
 		arg = {
 			content: arg
 		};
+	} else if (!_.isObject(arg)) {
+		arg = {};
 	}
 	if(arg.text && !arg.content) {
 		arg.content = arg.text;
@@ -58,7 +58,7 @@ function confirm(arg, showOptions = {}) {
 	if(showOptions.returnAsPromise == null) {
 		showOptions.returnAsPromise = true;
 	}
-
+	arg.modalType = 'confirm';
 	arg = normalizeConfirmFooter(arg);
 
 	return show(arg, showOptions);
