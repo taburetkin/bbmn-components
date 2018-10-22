@@ -80,8 +80,8 @@ export default Base => Base.extend({
 		let iteratee = _.isString(arg) ? { name: arg } : { name: arg.name };
 		return _.findWhere(actions, iteratee);
 	},
-	executeAction(action){
+	executeAction(action, ...rest){
 		this._initializeActionableActions();
-		return ActionStore.exec(this.actionsStoreName || this.constructor, action, this,  ...arguments);
+		return ActionStore.exec(this.actionsStoreName || this.constructor, action, this,  ...rest);
 	},
 }, { ActionableMixin: true });

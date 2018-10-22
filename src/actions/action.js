@@ -16,7 +16,7 @@ function createExec(actionInstance, actionMethod){
 		else {
 			return actionInstance.onActionMissing(instance);
 		}
-	}
+	};
 }
 
 
