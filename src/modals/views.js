@@ -38,7 +38,7 @@ export const ModalView = BaseModalView.extend({
 	renderAllCustoms: true,
 	
 	renderCollection: false,
-	viewComparator:false,
+	viewComparator: false,
 
 	templateContext(){
 		return {
@@ -109,6 +109,7 @@ export const ModalView = BaseModalView.extend({
 		if (this._isPromise && (key === 'footer' || key == 'content')) {
 			this._initPromiseListeners(view);
 		}
+		return view;
 	},
 	_initPromiseListeners(view){
 		this.listenTo(view, {

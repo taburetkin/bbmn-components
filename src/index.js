@@ -36,5 +36,5 @@ export default {
 	View, CollectionView, AtomText,
 	notify, notifies, Notifier,
 	Action, ActionStore, actionableMixin, action,
-	modals
+	modals,
 };
