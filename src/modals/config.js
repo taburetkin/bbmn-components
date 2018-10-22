@@ -13,6 +13,8 @@ export default {
 <% if(shouldWrapContent) {%></div><%} %>
 `),
 
+	confirmResolveText: 'confirm',
+	confirmRejectText: 'cancel',
 	TextView,
 	ModalView,
 	CloseButtonView,

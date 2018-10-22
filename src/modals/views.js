@@ -10,6 +10,20 @@ export const CloseButtonView = View.extend({
 	template: () => '<i></i>',
 });
 
+const ButtonView = View.extend({
+	tagName:'button',
+	template: _.template('<i></i><span><%= text %></span><i></i>'),
+	triggers:{
+		'click':'click'
+	},
+	templateContext(){
+		return {
+			text: this.getOption('text')
+		};
+	}
+});
+
+
 export const TextView = View.extend({
 	template: _.template('<%= text %>'),
 	templateContext(){
@@ -145,4 +159,38 @@ export const ModalView = BaseModalView.extend({
 	attributes:{
 		'data-modal': ''
 	},
+});
+
+
+export const FooterView = CollectionView.extend({
+	renderAllCustoms: true,
+	tagName:'footer',
+	attributes:{
+		'data-modal-content-footer':''
+	},
+	customs:[
+		v => v.getResolveView(),
+		v => v.getRejectView(),
+	],
+	getResolveView(){
+		let text = this.getOption('resolveText');
+		let view = new ButtonView({
+			text,
+			onClick: () => this.triggerClick(true)
+		});
+		return view;
+	},
+	getRejectView(){
+		let text = this.getOption('rejectText');
+		let view = new ButtonView({
+			text,
+			onClick: () => this.triggerClick(false)
+		});
+		return view;
+	},
+	triggerClick(resolve){
+		let event = resolve ? 'resolve' : 'reject';
+		let arg = this.getOption(event + 'With');
+		this.trigger(event, arg);
+	}
 });
