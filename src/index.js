@@ -9,6 +9,8 @@ import ViewStack from './view-stack';
 import store from './store';
 import { notify, notifies, Notifier } from './notifier';
 import { Action, ActionStore, actionableMixin, action } from './actions';
+import modals from './modals';
+
 export {
 	Process, startableMixin,
 	App,
@@ -20,6 +22,7 @@ export {
 	View, CollectionView, AtomText,
 	notify, notifies, Notifier,
 	Action, ActionStore, actionableMixin, action,
+	modals,
 };
 
 export default {
@@ -32,5 +35,6 @@ export default {
 	store,
 	View, CollectionView, AtomText,
 	notify, notifies, Notifier,
-	Action, ActionStore, actionableMixin, action
+	Action, ActionStore, actionableMixin, action,
+	modals
 };
