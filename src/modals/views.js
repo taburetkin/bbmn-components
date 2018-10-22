@@ -166,7 +166,7 @@ export const FooterView = CollectionView.extend({
 	renderAllCustoms: true,
 	tagName:'footer',
 	attributes:{
-		'data-modal-content-footer':''
+		'data-modal-content-footer':'confirm'
 	},
 	customs:[
 		v => v.getResolveView(),
