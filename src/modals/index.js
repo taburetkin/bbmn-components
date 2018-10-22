@@ -5,7 +5,15 @@ import { takeFirst } from 'bbmn-utils';
 
 function show(opts = {}, showOptions = {}){
 
+	if(!opts.attributes){
+		opts.attributes = {
+			'data-modal': opts.modalType || ''
+		};
+	}
+
 	let modal = config.buildView(opts, showOptions);
+
+
 	config.render(modal, config.getStack(), showOptions);
 
 	if (showOptions.returnAsPromise && opts.promise) {
@@ -22,9 +30,13 @@ function normalizeConfirmFooter(opts = {}){
 	if (!opts.footer) {
 		opts.footer = FooterView;
 	}
+
 	if(!opts.footerOptions) {
 		opts.footerOptions = {};
 	}
+	
+	opts.modalType = 'confirm';
+
 	let fopts = opts.footerOptions;
 	fopts.resolveWith = takeFirst('resolveWith', fopts, opts);
 	fopts.rejectWith = takeFirst('rejectWith', fopts, opts);
