@@ -71,7 +71,7 @@ export const ModalView = BaseModalView.extend({
 		(v) => v.takeOptionsView('footer'),
 	],
 	createCloseButton(){
-		if (!this.getOption('closeButton') || this.getOption('preventRemove')) {
+		if (this.getOption('closeButton') === false || this.getOption('preventRemove')) {
 			return;
 		}
 
