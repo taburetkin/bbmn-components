@@ -1,5 +1,5 @@
 import _ from 'underscore';
-import { betterResult, flat, unflat } from 'bbmn-utils';
+import { betterResult, clone } from 'bbmn-utils';
 import Schema from './schema.js';
 
 
@@ -16,7 +16,7 @@ export default Schema.extend({
 	},
 	_getByKey(key, options = {}){
 		let hash = betterResult(this.schema, key, { args: [options], default: {} });
-		return unflat(flat(hash));
+		return clone(hash);
 	},
 	getValidation(options) {
 		return this._getByKey('validation', options);
@@ -39,7 +39,7 @@ export default Schema.extend({
 		let valueOptions = this.getType(options);
 		let editOptions = this._getByKey('edit', options);
 		let label = this.getLabel(options.value, options.allValue);
-		let compiled = _.extend({ name: this.name, label }, options, { valueOptions, editOptions });
+		let compiled = _.extend({ name: this.name, label, schema: this }, options, { valueOptions, editOptions });
 		return compiled;
 	},
 });
