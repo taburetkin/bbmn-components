@@ -16,7 +16,7 @@ export default Schema.extend({
 	},
 	_getByKey(key, options = {}){
 		let hash = betterResult(this.schema, key, { args: [options], default: {} });
-		return clone(hash);
+		return clone(hash, { functions: true });
 	},
 	getValidation(options) {
 		return this._getByKey('validation', options);
