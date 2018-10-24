@@ -10,6 +10,7 @@ import store from './store';
 import { notify, notifies, Notifier } from './notifier';
 import { Action, ActionStore, actionableMixin, action } from './actions';
 import modals from './modals';
+import Selector from './selector';
 
 export {
 	Process, startableMixin,
@@ -23,6 +24,7 @@ export {
 	notify, notifies, Notifier,
 	Action, ActionStore, actionableMixin, action,
 	modals,
+	Selector,
 };
 
 export default {
@@ -37,4 +39,5 @@ export default {
 	notify, notifies, Notifier,
 	Action, ActionStore, actionableMixin, action,
 	modals,
+	Selector,
 };
