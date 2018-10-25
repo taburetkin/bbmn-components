@@ -35,6 +35,13 @@ notify.error = function(arg){
 	normalizeOptions(arg));
 	return notify(options);
 };
+notify.success = function(arg){
+	let options = _.extend({ 
+		type: 'success', id: _.uniqueId('waitNotify') 
+	}, 
+	normalizeOptions(arg));
+	return notify(options);
+};
 notify.message = function(arg){
 	let options = _.extend({ 
 		type: 'message', 		
