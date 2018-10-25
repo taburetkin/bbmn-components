@@ -1,5 +1,5 @@
 import _ from 'underscore';
-import { CollectionView, View, AtomText } from '../views';
+import { CollectionView, View, AtomTextView } from '../views';
 
 
 const IconView = View.extend({
@@ -91,7 +91,7 @@ const NotifyView = CollectionView.extend({
 		return new IconView({ className: 'type-icon' });
 	},
 	getMessageView(){
-		return AtomText.byModel(this.model, { className: 'message' });
+		return AtomTextView.byModel(this.model, { className: 'message' });
 	},
 	getStateView(){
 		return new IconButtonView({ className: 'state' });
