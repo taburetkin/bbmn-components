@@ -22,7 +22,7 @@ const store = {
 	isNotInitialized(arg){
 		return !this.getStore(arg);
 	},
-	initialize(name, schema = {}) {
+	initialize(name, schema = {}, options) {
 		if (!this.isNotInitialized(name)) {
 			throw new Error('Schema already initialized');
 		}
@@ -32,9 +32,9 @@ const store = {
 		if(name in this.schemas) { return; }
 
 		if(!(schema instanceof ModelSchema) && _.isObject(schema)){
-			schema = new ModelSchema(schema);
+			schema = new ModelSchema(schema, options);
 		} else {
-			schema = new ModelSchema({});
+			schema = new ModelSchema({}, options);
 		}
 		this.schemas[name] = {
 			name, ctor, schema

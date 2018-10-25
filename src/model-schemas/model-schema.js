@@ -4,7 +4,8 @@ import PropertySchema from './property-schema.js';
 import { isEmptyValue } from 'bbmn-utils';
 
 export default Schema.extend({
-	constructor(properties = {}){
+	constructor(properties = {}, options = {}){
+		this.options = _.clone(options);
 		this.properties = {};
 		Schema.apply(this,arguments);
 		this.setProperties(properties);
