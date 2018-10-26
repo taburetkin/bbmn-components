@@ -6,6 +6,9 @@ import ClassStore from '../class-store';
 const Store = BaseClass.extend({
 	constructor(options = {}){
 		_.extend(this, options);
+		if(!_.isFunction(this.buildAction)){
+			this.buildAction = i => i;
+		}
 		this.actions = [];
 		this.actionsByNames = [];
 	},

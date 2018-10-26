@@ -4,9 +4,10 @@ import { BaseClass } from 'bbmn-core';
 const ClassStore = BaseClass.extend({	
 	constructor(options = {}){
 		_.extend(this, _.omit(options, 'createStore'));
+		let key = _.uniqueId('__classstore');
 		this._createStore = options.createStore;
-		this.instanceNameKey = options.instanceNameKey;
-		this.ctorNameKey = options.ctorNameKey;
+		this.instanceNameKey = options.instanceNameKey || key;
+		this.ctorNameKey = options.ctorNameKey || key;
 		this.items = {};
 	},
 	onExists: () => false,
