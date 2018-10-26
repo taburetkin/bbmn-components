@@ -32,7 +32,7 @@ const Store = BaseClass.extend({
 	},
 	buildAction: raw => raw,
 	registerActions(raw){
-		let actions = this.buildAction(raw);
+		let actions = this.buildActions(raw);
 		this.actions.push(...actions);
 	}
 });
