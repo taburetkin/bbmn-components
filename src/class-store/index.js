@@ -11,12 +11,12 @@ const ClassStore = BaseClass.extend({
 	},
 	onExists: () => false,
 	createStore(arg, ...rest){
-		if (this.isExists(name)) {
+		if (this.isExists(arg)) {
 			return this.onExists();
 		}
-		let context = this.getCreateStoreContext(arg);		
-		let store = this.buildStore(context, ...rest);
-		this.setStore(name, store);
+		let context = this.getCreateStoreContext(arg);	
+		let store = this.buildStore(context, ...rest);		
+		this.setStore(context, store);
 		return store;
 	},
 	getStoreName(arg, generate){
@@ -69,8 +69,9 @@ const ClassStore = BaseClass.extend({
 			return this.getStoreByInstance(arg);
 		}
 	},
-	setStore(name, store){
+	setStore({ name, ctor, instance } = {}, store){
 		this.items[name] = store;
+		this.setStoreNameOn(instance || ctor, name);
 	},
 	setStoreNameOn(arg, name){
 		if(_.isFunction(arg)) {
@@ -86,10 +87,11 @@ const ClassStore = BaseClass.extend({
 			? arg 
 			: _.isObject(arg) ? arg.constructor
 				: undefined;
+				
 		let instance = !_.isFunction(arg) && _.isObject(arg) && arg || undefined;
 
 		let name = this.getStoreName(arg, true);
-		this.setStoreNameOn(instance || ctor, name);
+		
 		return { instance, ctor, name };
 	},
 });
