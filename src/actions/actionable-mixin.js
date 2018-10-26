@@ -35,7 +35,7 @@ function getFromPrototypes(instance, property, { exclude, process } = {}) {
 export default Base => Base.extend({
 	_actionableMixin: true,
 	inheritActions: false,
-	InstanceAction: Action,
+	ActionClass: Action,
 
 	constructor(){
 		Base.apply(this, arguments);
@@ -43,9 +43,10 @@ export default Base => Base.extend({
 	_initializeActionableActions(){
 		if (this._actionableActionsInitialized) return;
 
-		if (ActionStore.isNotInitialized(this.actionsStoreName || this.constructor)) {
+		if (!ActionStore.isExists(this)) {
 			let instance = betterResult(this, 'actions', { args: [this], default: [] });
 			let inherited = [];
+			let waiting = this._actionsWaitingForRegister || [];
 			if (this.inheritActions) {
 				let protoActions = getFromPrototypes(this, 'actions', {
 					exclude: this.actions,
@@ -54,9 +55,10 @@ export default Base => Base.extend({
 				inherited.push(..._.flatten(protoActions));
 				inherited = _.filter(inherited, f => f != null);
 			}
-			let rawactions = [...inherited, ...instance];
-			ActionStore.initialize({
-				name: this.actionsStoreName || this.constructor, 
+
+			let rawactions = [...inherited, ...instance, ...waiting];
+
+			ActionStore.initialize(this, {
 				actions: rawactions, 
 				Action: this.ActionClass,
 				buildAction: raw => this.buildStoreAction(raw),				
@@ -69,7 +71,15 @@ export default Base => Base.extend({
 	buildStoreAction: action => action,
 	getActions(options = {}){
 		this._initializeActionableActions();
-		return ActionStore.getActions(this.actionsStoreName || this.constructor, options);
+		return ActionStore.getActions(this, options);
+	},
+	registerActions(...actions){
+		if(this._actionableActionsInitialized) {
+			ActionStore.registerActions(this, actions);
+		} else {
+			this._actionsWaitingForRegister || (this._actionsWaitingForRegister = []);
+			this._actionsWaitingForRegister.push(...actions);
+		}
 	},
 	hasAction(arg, options){
 		let action = this.getAction(arg, options);
@@ -82,6 +92,6 @@ export default Base => Base.extend({
 	},
 	executeAction(action, ...rest){
 		this._initializeActionableActions();
-		return ActionStore.exec(this.actionsStoreName || this.constructor, action, this,  ...rest);
+		return ActionStore.exec(this.actionsStoreName || this, action, this,  ...rest);
 	},
 }, { ActionableMixin: true });

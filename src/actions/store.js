@@ -1,45 +1,27 @@
 import _ from 'underscore';
+import BaseClass from 'bbmn-core';
 import BaseAction from './action.js';
+import ClassStore from '../class-store';
 
-const store = {
-	Action: BaseAction,
-	names:{},
-	getStoreName(arg){
-		if(_.isString(arg) && arg !== '') {
-			return arg;
-		}
-
-		if (_.isFunction(arg)) {
-			let store = this.getStoreByCtor(arg);
-			if (store) {
-				return store.name;
-			}
-		}
-		return _.uniqueId('actionStore');		
+const Store = BaseClass.extend({
+	constructor(options = {}){
+		_.extend(this, options);
+		this.actions = [];
+		this.actionsByNames = [];
 	},
-	getStoreByCtor(ctor){
-		return _.find(this.names, f => f.ctor === ctor);		
-	},
-	isNotInitialized(arg){
-		return !this.getStore(arg);
-	},
-	initialize({ name, actions, Action, buildAction } = {}) {
-		let ActionClass = Action || this.Action;
-		let ctor = _.isFunction(name) && name || undefined;
-		name = this.getStoreName(name);
+	buildActions(actions = []){
+		let { actionsByNames, buildAction, name, ctor, Action } = this;
 
-		if(name in this.names) { return; }
-
-		let options = { name, ctor, Action: ActionClass };
-		let actionsByNames = {};
-		let builded = _.reduce(actions, (passed, action) => {
+		let options = { name, ctor, Action };
+		
+		return _.reduce(actions, (passed, action) => {
 
 			action = this.buildAction(action, options);
 			if(_.isFunction(buildAction)){
 				action = buildAction(action, options);
 			}
-			if(!(action instanceof ActionClass)){
-				action = new ActionClass(action);
+			if(!(action instanceof Action)){
+				action = new Action(action);
 			}
 			if (!(action.name in actionsByNames)) {
 				passed.push(action);
@@ -47,18 +29,39 @@ const store = {
 			}
 			return passed;
 		}, []);
+	},
+	buildAction: raw => raw,
+	registerActions(raw){
+		let actions = this.buildAction(raw);
+		this.actions.push(...actions);
+	}
+});
 
-		this.names[name] = {
-			name, ctor, actions: builded, actionsByNames
-		};
+
+const store = new ClassStore({
+	Action: BaseAction,
+	ctorNameKey: '__actionsStoreName',
+	instanceNameKey: '__actionsStoreName',
+	onExists: () => false,
+	buildStore(context, { actions, Action, buildAction } = {}) {
+		Action || (Action = this.Action);
+		let { ctor, name } = context;
+		let store = new Store({ name, ctor, buildAction, Action });
+		store.registerActions(actions);		
+		return store;
 	},
-	getStore(arg){
-		if (_.isString(arg)) {
-			return this.names[name];
-		} else if (_.isFunction(arg)) {
-			return this.getStoreByCtor(arg);
-		}
+
+	initialize(){
+		let store = this.createStore(...arguments);
+		return store.schema;
 	},
+
+	registerActions(arg, actions){
+		let store = this.getStore(arg);
+		if(!store) return;
+		store.registerActions(actions);
+	},
+
 	getActions(arg, options){
 		let cache = this.getStore(arg);
 		if(!cache) return [];
@@ -78,9 +81,8 @@ const store = {
 			return found.exec(instance, ...args);
 		}
 	},
-	filter: () => true,
-	buildAction: raw => raw,
-};
+	filter: () => true,	
+});
 
 
 export default store;
