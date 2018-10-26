@@ -35,7 +35,7 @@ function getFromPrototypes(instance, property, { exclude, process } = {}) {
 export default Base => Base.extend({
 	_actionableMixin: true,
 	inheritActions: false,
-	ActionClass: Action,
+	ActionClass: undefined,
 
 	constructor(){
 		Base.apply(this, arguments);
@@ -58,8 +58,7 @@ export default Base => Base.extend({
 
 			let rawactions = [...inherited, ...instance, ...waiting];
 
-			ActionStore.initialize(this, {
-				actions: rawactions, 
+			ActionStore.initialize(this, rawactions, {
 				Action: this.ActionClass,
 				buildAction: raw => this.buildStoreAction(raw),				
 			});

@@ -43,7 +43,7 @@ const store = new ClassStore({
 	ctorNameKey: '__actionsStoreName',
 	instanceNameKey: '__actionsStoreName',
 	onExists: () => false,
-	buildStore(context, { actions, Action, buildAction } = {}) {
+	buildStore(context, actions = [], { Action, buildAction } = {}) {
 		Action || (Action = this.Action);
 		let { ctor, name } = context;
 		let store = new Store({ name, ctor, buildAction, Action });
