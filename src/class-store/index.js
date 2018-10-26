@@ -53,7 +53,7 @@ const ClassStore = BaseClass.extend({
 	},
 	getStoreByCtor(ctor){
 		let item;
-		let name = ctor[this.ctoreNameKey];
+		let name = ctor[this.ctorNameKey];
 		if(name) {
 			item = this.getStoreByName(name);
 			if(item){ return item; }
@@ -87,7 +87,7 @@ const ClassStore = BaseClass.extend({
 			? arg 
 			: _.isObject(arg) ? arg.constructor
 				: undefined;
-				
+
 		let instance = !_.isFunction(arg) && _.isObject(arg) && arg || undefined;
 
 		let name = this.getStoreName(arg, true);
