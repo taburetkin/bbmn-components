@@ -59,7 +59,7 @@ const ClassStore = BaseClass.extend({
 			item = this.getStoreByName(name);
 			if(item){ return item; }
 		}
-		return _.find(this.item, f => f.ctor === ctor);
+		return _.find(this.items, f => f.ctor === ctor);
 	},
 	getStore(arg){
 		if (_.isString(arg)) {

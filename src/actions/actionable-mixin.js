@@ -1,7 +1,7 @@
 import _ from 'underscore';
 
 import { betterResult } from 'bbmn-utils';
-import Action from './action.js';
+
 import ActionStore from './store.js';
 
 
