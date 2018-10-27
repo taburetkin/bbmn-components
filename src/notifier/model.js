@@ -45,13 +45,12 @@ const NotifyModel = Model.extend({
 		return this.get('viewed') === true;
 	},
 	setViewed(){
+		this.set({
+			viewed:true,
+			viewedDelay: undefined
+		});
 		if (this.get('store') === false) {
-			this.removed();
-		} else {
-			this.set({
-				viewed:true,
-				viewedDelay: undefined
-			});
+			this.destroy();
 		}
 	},	
 	getDate(){
