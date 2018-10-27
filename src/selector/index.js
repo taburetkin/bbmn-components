@@ -51,7 +51,7 @@ const Selector = BaseSelector.extend({
 		this.extractValue = model => model.get('id');
 	},
 	_createCollections(){
-		let initialSelected = this.options.value || [];
+		let initialSelected = this.options.value == null ? [] : this.options.value;
 		if(!_.isArray(initialSelected)) {
 			initialSelected = [initialSelected];
 		}
