@@ -70,7 +70,12 @@ export default Base => Base.extend({
 	buildStoreAction: action => action,
 	getActions(options = {}){
 		this._initializeActionableActions();
-		return ActionStore.getActions(this, options);
+		let actions = ActionStore.getActions(this, options);
+		let { asModels } = options;
+		if (asModels) {
+			return _.map(actions, action => action.toModel(this));
+		}
+		return actions;
 	},
 	registerActions(...actions){
 		if(this._actionableActionsInitialized) {
