@@ -40,7 +40,13 @@ const Selector = BaseSelector.extend({
 		} else if(isCollection(this.source)) {
 			return;
 		}		
-		let models = _.map(this.source, (value, id) => ({ id, value }));
+		let models = _.map(this.source, (value, ind) => {
+			if(_.isObject(value)) {
+				return value;
+			} else {
+				return {id : ind, value };
+			}
+		});
 		this.source = new Collection(models);
 		this.extractValue = model => model.get('id');
 	},
