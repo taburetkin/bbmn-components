@@ -1,5 +1,5 @@
 import _ from 'underscore';
-import { betterResult, clone } from 'bbmn-utils';
+import { betterResult, clone, isEmptyValue, toBool } from 'bbmn-utils';
 import Schema from './schema.js';
 
 
@@ -42,4 +42,27 @@ export default Schema.extend({
 		let compiled = _.extend({ name: this.name, label, schema: this }, options, editOptions, { valueOptions });
 		return compiled;
 	},
+	// accepts: value, model, options
+	getDisplayValue(val, model, options = {}){
+		let display = this.getDisplay();
+		let type = this.getType();
+		options = _.extend({ model, display, type, property: this });
+		if (display) {
+			if (_.isFunction(display.transform)) {
+				val = display.transform.call(model, val, options);
+			} else if (type.type == 'boolean' && type.valueSource) {
+				_.some(type.valueSource, (label, key) => {
+					if(toBool(key) === val) {
+						val = label;
+						return true;
+					}
+				});
+			}
+
+			if(isEmptyValue(val) && display.ifEmpty) {
+				val = display.ifEmpty;
+			}
+		}
+		return val;
+	}
 });

@@ -1,6 +1,6 @@
 import { startableMixin, Process} from './process/index.js';
 import App from './app/index.js';
-import { ModelSchemas, ModelSchema, PropertySchema } from './model-schemas/index.js';
+import { ModelSchemas, ModelSchema, PropertySchema, modelSchemaMixin } from './model-schemas/index.js';
 import { View, CollectionView, AtomTextView } from './views';
 import validator from './validator';
 import User from './user';
@@ -15,7 +15,7 @@ import Selector from './selector';
 export {
 	Process, startableMixin,
 	App,
-	ModelSchemas, ModelSchema, PropertySchema,
+	ModelSchemas, ModelSchema, PropertySchema, modelSchemaMixin,
 	validator,
 	User, BearerToken,
 	ViewStack,
@@ -30,7 +30,7 @@ export {
 export default {
 	Process, startableMixin,
 	App,
-	ModelSchemas, ModelSchema, PropertySchema,
+	ModelSchemas, ModelSchema, PropertySchema, modelSchemaMixin,
 	validator,
 	User, BearerToken,
 	ViewStack,
