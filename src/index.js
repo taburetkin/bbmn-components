@@ -1,7 +1,7 @@
 import { startableMixin, Process} from './process/index.js';
 import App from './app/index.js';
 import { ModelSchemas, ModelSchema, PropertySchema, modelSchemaMixin } from './model-schemas/index.js';
-import { View, CollectionView, AtomTextView } from './views';
+import { View, CollectionView, AtomTextView, TextView } from './views';
 import validator from './validator';
 import User from './user';
 import BearerToken from './bearer-token';
@@ -20,7 +20,7 @@ export {
 	User, BearerToken,
 	ViewStack,
 	store,
-	View, CollectionView, AtomTextView,
+	View, CollectionView, AtomTextView, TextView,
 	notify, notifies, Notifier,
 	Action, ActionStore, actionableMixin, action,
 	modals,
@@ -35,7 +35,7 @@ export default {
 	User, BearerToken,
 	ViewStack,
 	store,
-	View, CollectionView, AtomTextView,
+	View, CollectionView, AtomTextView, TextView,
 	notify, notifies, Notifier,
 	Action, ActionStore, actionableMixin, action,
 	modals,
