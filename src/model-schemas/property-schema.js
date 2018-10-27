@@ -51,7 +51,7 @@ export default Schema.extend({
 			if (_.isFunction(display.transform)) {
 				val = display.transform.call(model, val, options);
 			} else if (type.type == 'boolean' && type.sourceValues) {
-				_.some(type.valueSource, (label, key) => {
+				_.some(type.sourceValues, (label, key) => {
 					if(toBool(key) === val) {
 						val = label;
 						return true;

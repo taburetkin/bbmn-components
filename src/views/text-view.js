@@ -44,7 +44,7 @@ export const TextView = BackboneView.extend({
 		}
 	},
 	getValue(){
-		let text = this.text || '';
+		let text = this.text == null ? '' : this.text;
 		if(!this.isHtml)
 			text = _.escape(text);
 		return text;
