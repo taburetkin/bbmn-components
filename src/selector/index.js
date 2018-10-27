@@ -48,7 +48,9 @@ const Selector = BaseSelector.extend({
 			}
 		});
 		this.source = new Collection(models);
-		this.extractValue = model => model.get('id');
+		if(this.options.extractValue == null) {
+			this.extractValue = model => model.id;
+		}
 	},
 	_createCollections(){
 		let initialSelected = this.options.value == null ? [] : this.options.value;
@@ -174,11 +176,11 @@ const Selector = BaseSelector.extend({
 		let result = { selected: [], unselected: [] };
 		if(this.selected.has(model)){
 			affected = this._unselect(model, options);
-			key = 'selected';
+			key = 'unselected';
 		} 
 		else {
 			affected = this._select(model, options);
-			key = 'unselected';
+			key = 'selected';
 		}
 		result[key].push(affected);
 		return result;
@@ -262,6 +264,7 @@ const Selector = BaseSelector.extend({
 			return results[0];
 		}
 	},
+
 	extractValue(model) {
 		return model;
 	}
