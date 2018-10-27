@@ -18,7 +18,8 @@ export const TextView = BackboneView.extend({
 				name = property.name;
 			}
 			this.property = name;
-			name && this.listenTo(this.model, 'change:' + name, this.onPropertyChange);
+			this.applyPropertyValue();
+			name && this.listenTo(this.model, 'change:' + name, this.applyPropertyValue);
 		}
 	},
 	render(){
@@ -43,7 +44,7 @@ export const TextView = BackboneView.extend({
 		}
 	},
 	getValue(){
-		let text = this.text;
+		let text = this.text || '';
 		if(!this.isHtml)
 			text = _.escape(text);
 		return text;
@@ -51,7 +52,7 @@ export const TextView = BackboneView.extend({
 	setNodeValue() {
 		this.el.innerHTML = this.getValue();
 	},
-	onPropertyChange(){
+	applyPropertyValue(){
 		let value = this.getPropertyValue();
 		this.setValue(value);
 	},
