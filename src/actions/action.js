@@ -40,12 +40,18 @@ const ActionModel = Model.extend({
 	}
 });
 
+
+const instanceProperties = ['name','label','order'];
+
 const Action = BaseClass.extend({
 	constructor(options = {}){
-		let { name, action } = options;
-		this.options = _.omit(options, 'name', 'callback', 'order');
-		this.order = options.order || 0;
-		this.name = name;
+		let { action } = options;
+		delete options.action;
+
+		_.extend(this, _.pick(options, ...instanceProperties));
+
+		this.options = _.omit(options, ...instanceProperties);
+
 		this.exec = createExec(this, action);
 	},
 
