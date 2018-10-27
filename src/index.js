@@ -7,7 +7,7 @@ import User from './user';
 import BearerToken from './bearer-token';
 import ViewStack from './view-stack';
 import store from './store';
-import { notify, notifies, Notifier } from './notifier';
+import { notify, notifies, Notifier, syncWithNotifyMixin } from './notifier';
 import { Action, ActionStore, actionableMixin, action } from './actions';
 import modals from './modals';
 import Selector from './selector';
@@ -21,7 +21,7 @@ export {
 	ViewStack,
 	store,
 	View, CollectionView, AtomTextView, TextView,
-	notify, notifies, Notifier,
+	notify, notifies, Notifier, syncWithNotifyMixin,
 	Action, ActionStore, actionableMixin, action,
 	modals,
 	Selector,
@@ -36,7 +36,7 @@ export default {
 	ViewStack,
 	store,
 	View, CollectionView, AtomTextView, TextView,
-	notify, notifies, Notifier,
+	notify, notifies, Notifier, syncWithNotifyMixin,
 	Action, ActionStore, actionableMixin, action,
 	modals,
 	Selector,
