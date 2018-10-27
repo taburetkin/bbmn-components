@@ -1,17 +1,26 @@
 import ModelSchemas from './store.js';
-export default Model => Model.extebd({
+export default Model => Model.extend({
 	getSchema(){
 		return ModelSchemas.get(this);
 	},
-	display(key, options){
+	getPropertySchema(key){
 		let schema = this.getSchema();
+		if(schema) {
+			return schema.getProperty(key);
+		}
+	},
+	display(key, options){
 		let value = this.get(...arguments);
-		if (schema) {
-			let property = schema.getProperty(key);
-			if (property) {
-				return property.getDisplayValue(value, this, options);
-			}
+		let property = this.getPropertySchema(key);
+		if (property) {
+			return property.getDisplayValue(value, this, options);
 		}
 		return value;
+	},
+	displayLabel(key){
+		let property = this.getPropertySchema(key);
+		if (property) {
+			return property.getLabel();
+		}
 	}
 });

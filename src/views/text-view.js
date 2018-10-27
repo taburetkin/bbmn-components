@@ -1,6 +1,8 @@
-import { BackboneView } from 'bbmn-core';
 import _ from 'underscore';
+import { BackboneView } from 'bbmn-core';
 import { triggerMethod } from 'bbmn-utils';
+import { PropertySchema } from '../model-schemas';
+
 export const TextView = BackboneView.extend({
 	constructor(options = {}){
 		this.options = options;
@@ -8,8 +10,15 @@ export const TextView = BackboneView.extend({
 		this.setValue({ text, isHtml, preventRender: true });		
 		BackboneView.apply(this, arguments);
 		if (this.model && property) {
-			this.property = property;
-			this.listenTo(this.model, 'change:' + property, this.onPropertyChange);
+			let name;
+			if(_.isString(property)) {
+				name = property;
+			} else if (property instanceof PropertySchema) {
+				this.schema = property;
+				name = property.name;
+			}
+			this.property = name;
+			name && this.listenTo(this.model, 'change:' + name, this.onPropertyChange);
 		}
 	},
 	render(){
@@ -47,7 +56,12 @@ export const TextView = BackboneView.extend({
 		this.setValue(value);
 	},
 	getPropertyValue(){
-		return this.model.get(this.property);
+		let val = this.model.get(this.property);
+		if (this.schema) {
+			return this.schema.getDisplayValue(val, this.model);
+		} else {
+			return val;
+		}
 	},
 	triggerMethod
 });
