@@ -1,5 +1,5 @@
 import _ from 'underscore';
-import { betterResult, clone, isEmptyValue, toBool } from 'bbmn-utils';
+import { betterResult, clone, isEmptyValue, toBool, getFlag } from 'bbmn-utils';
 import Schema from './schema.js';
 
 
@@ -50,13 +50,15 @@ export default Schema.extend({
 		if (display) {
 			if (_.isFunction(display.transform)) {
 				val = display.transform.call(model, val, options);
-			} else if (type.type == 'boolean' && type.valueSource) {
+			} else if (type.type == 'boolean' && type.sourceValues) {
 				_.some(type.valueSource, (label, key) => {
 					if(toBool(key) === val) {
 						val = label;
 						return true;
 					}
 				});
+			} else if (type.type == 'enum' && type.sourceValues) {
+				val = getFlag(type.sourceValues, val);
 			}
 
 			if(isEmptyValue(val) && display.ifEmpty) {
