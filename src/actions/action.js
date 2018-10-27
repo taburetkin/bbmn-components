@@ -1,6 +1,5 @@
 import _ from 'underscore';
-import { BaseClass } from 'bbmn-core';
-
+import { BaseClass, Model } from 'bbmn-core';
 import { getByPath } from 'bbmn-utils';
 
 function createExec(actionInstance, actionMethod){
@@ -30,7 +29,7 @@ const Action = BaseClass.extend({
 	getOption(key){
 		return getByPath(this.options, key);
 	},
-	getLabel(){ return this.name; },
+	getLabel(){ return this.label || this.name; },
 	getAction() {
 		return this._action;
 	},
@@ -40,7 +39,9 @@ const Action = BaseClass.extend({
 	isNotAllowed () { },
 	onExecuteNotAllowed () { },
 	onActionMissing () { },
-
+	toModel(){
+		return new Model({ id: this.name, label: this.getLabel() }, { action: this });
+	}
 });
 
 export default Action;
