@@ -10,6 +10,7 @@ export const TextView = BackboneView.extend({
 		let { text, isHtml = true, property, schema, customValue } = options;
 		this.setValue({ text, isHtml, preventRender: true });
 
+		
 		BackboneView.apply(this, arguments);
 		if (this.model && property) {
 			this.customValue = customValue;
