@@ -5,10 +5,11 @@ import { triggerMethod, getOption } from 'bbmn-utils';
 
 export const TextView = BackboneView.extend({
 	displayInsteadGet: true,
+	shouldEscapeValue: true,
 	constructor(options = {}){
 		this.options = options;
-		let { text, isHtml = true, property, schema, customValue } = options;
-		this.setValue({ text, isHtml, preventRender: true });
+		let { text, value, shouldEscapeValue, property, schema, customValue } = options;
+		this.setValue(text || value, { shouldEscapeValue, preventRender: true });
 
 		
 		BackboneView.apply(this, arguments);
@@ -16,7 +17,7 @@ export const TextView = BackboneView.extend({
 			this.customValue = customValue;
 			this.schema = schema;
 			this.property = property;
-			this.applyPropertyValue();
+			this.applyPropertyValue({ preventRender: true });
 			name && this.listenTo(this.model, 'change:' + name, this.applyPropertyValue);
 		}
 	},
@@ -27,35 +28,43 @@ export const TextView = BackboneView.extend({
 		this.setNodeValue();
 	},
 	setValue(value, opts = {}){
+		
+		this.value = value;
+		let { preventRender, shouldEscapeValue } = opts;
 
-		if(opts === true || opts == null) {
-			opts = { isHtml: true };
+		if(shouldEscapeValue != null){
+			this.shouldEscapeValue = shouldEscapeValue;
 		}
-		if(_.isObject(value)) {
-			opts = _.extend(opts, value);
-		} else {
-			opts.text = value;
-		}
-		let { preventRender } = opts;
-		let newvalue = _.pick(opts, 'text', 'isHtml');
-		_.extend(this, newvalue);
 
 		if (!preventRender) {
 			this.setNodeValue();
 		}
 	},
-	getValue(){
-		let text = this.text == null ? '' : this.text;
-		if(!this.isHtml)
-			text = _.escape(text);
-		return text;
+	getValue({ asIs, shouldEscapeValue } = {}){
+		let value = this.value;
+		if (asIs){
+			return value;
+		}
+		
+		if(!_.isString(value)) {
+			value = value == null ? '' : value.toString();
+		}
+
+		if (shouldEscapeValue == null) {
+			shouldEscapeValue = this.shouldEscapeValue;
+		}
+
+		if (shouldEscapeValue) {
+			value = _.escape(value);
+		}
+		return value;
 	},
 	setNodeValue() {
 		this.el.innerHTML = this.getValue();
 	},
-	applyPropertyValue(){
+	applyPropertyValue(opts){
 		let value = this.getPropertyValue();
-		this.setValue(value);
+		this.setValue(value, opts);
 	},
 	getPropertyValue(){
 		
