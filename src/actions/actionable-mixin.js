@@ -40,10 +40,13 @@ export default Base => Base.extend({
 	constructor(){
 		Base.apply(this, arguments);
 	},
+	_isActionsRegistered(){
+		return ActionStore.isExists(this);
+	},
 	_initializeActionableActions(){
 		if (this._actionableActionsInitialized) return;
 
-		if (!ActionStore.isExists(this)) {
+		if (!this._isActionsRegistered()) {
 			let instance = betterResult(this, 'actions', { args: [this], default: [] });
 			let inherited = [];
 			let waiting = this._actionsWaitingForRegister || [];
@@ -78,7 +81,7 @@ export default Base => Base.extend({
 		return actions;
 	},
 	registerActions(...actions){
-		if(this._actionableActionsInitialized) {
+		if(this._actionableActionsInitialized || this._isActionsRegistered()) {
 			ActionStore.registerActions(this, actions);
 		} else {
 			this._actionsWaitingForRegister || (this._actionsWaitingForRegister = []);
