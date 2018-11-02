@@ -48,7 +48,7 @@ export default {
 
 		if (stack) {
 			let { preventRemove } = options;
-			stack.add(view, { preventRemove });
+			_.defer(() => stack.add(view, { preventRemove }));
 		}
 	},
 	container: () => document.querySelector('body'),
