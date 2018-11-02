@@ -41,7 +41,7 @@ const ActionModel = Model.extend({
 });
 
 
-const instanceProperties = ['name','label','order'];
+const instanceProperties = ['name', 'label', 'order', 'hidden'];
 
 const Action = BaseClass.extend({
 	constructor(options = {}){
@@ -63,7 +63,8 @@ const Action = BaseClass.extend({
 
 	is (arg) { return this == arg || this.name == arg; },
 	isVisible () { return this.hidden !== true; },
-
+	isHidden () { return this.hidden == true; },
+	
 	isNotAllowed () { },
 	onExecuteNotAllowed () { },
 	onActionMissing () { },
