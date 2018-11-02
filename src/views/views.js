@@ -1,17 +1,21 @@
 import { View, CollectionView } from 'backbone.marionette';
-import { mix, getOption, mergeOptions } from 'bbmn-utils';
-import { cssClassModifiersMixin, customsMixin, emptyFetchMixin, improvedIndexesMixin } from 'bbmn-mixins';
+import { mix } from 'bbmn-utils';
+import { cssClassModifiersMixin, customsMixin, emptyFetchMixin, improvedIndexesMixin, optionsMixin } from 'bbmn-mixins';
 
-const common = {
-	getOption(){
-		return getOption(this, ...arguments);
-	},
-	mergeOptions,
-};
+const ExtView = mix(View)
+	.with(
+		optionsMixin, 
+		cssClassModifiersMixin
+	);
 
-const ExtView = mix(View).with(cssClassModifiersMixin, common);
-
-const ExtCollectionVIew = mix(CollectionView).with(cssClassModifiersMixin, customsMixin, emptyFetchMixin, improvedIndexesMixin, common);
+const ExtCollectionVIew = mix(CollectionView)
+	.with(
+		optionsMixin, 
+		cssClassModifiersMixin, 
+		customsMixin, 
+		emptyFetchMixin, 
+		improvedIndexesMixin
+	);
 
 export {
 	ExtView as View,
