@@ -8,9 +8,9 @@
     "bbmn",
     "components"
   ],
-  "main": "lib/umd/index.js",
-  "module": "lib/es/index.js",
-  "jsnext": "lib/es/index.js",
+  "main": "src/index.js",
+  "module": "src/index.js",
+  "jsnext": "src/index.js",
   "browser": "lib/umd/index.js",
   "repository": "https://github.com/taburetkin/bbmn-components.git",
   "author": "dimtabu <dima.taburetkin@gmail.com>",
