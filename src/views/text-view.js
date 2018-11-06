@@ -80,5 +80,12 @@ export const TextView = BackboneView.extend({
 			return val;
 		}
 	},
-	triggerMethod
+	triggerMethod,
+	destroy(){
+		this.off();
+		this.stopListening();
+		let keys = _.keys(this);
+		_.each(keys, key => delete this[key]);
+		this.$el.remove();
+	}
 });
