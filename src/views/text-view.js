@@ -9,6 +9,9 @@ export const TextView = BackboneView.extend({
 	constructor(options = {}){
 		this.options = options;
 		let { text, value, shouldEscapeValue, property, schema, customValue } = options;
+		if(!property && schema) {
+			property = schema.name;
+		}
 		this.setValue(text || value, { shouldEscapeValue, preventRender: true });
 
 		
