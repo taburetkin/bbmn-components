@@ -21,7 +21,7 @@ export const TextView = BackboneView.extend({
 			this.schema = schema;
 			this.property = property;
 			this.applyPropertyValue({ preventRender: true });
-			name && this.listenTo(this.model, 'change:' + name, this.applyPropertyValue);
+			property && this.listenTo(this.model, 'change:' + property, this.applyPropertyValue);
 		}
 	},
 	getOption(){
