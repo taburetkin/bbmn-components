@@ -76,7 +76,7 @@ export default Base => Base.extend({
 		return actions;
 	},
 
-	registerActions(...actions){
+	registerActions(actions){
 		ActionStore.registerActions(this, actions, {
 			Action: this.ActionClass,
 			buildAction: raw => this.buildStoreAction(raw),				
@@ -88,9 +88,9 @@ export default Base => Base.extend({
 		// 	this._actionsWaitingForRegister.push(...actions);
 		// }
 	},
-	registerAction(action){
+	registerAction(...action){
 		if(!action) return;
-		return this.registerActions([action]);
+		return this.registerActions(action);
 	},
 	hasAction(arg, options){
 		let action = this.getAction(arg, options);
