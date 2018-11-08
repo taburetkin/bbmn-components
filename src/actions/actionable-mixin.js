@@ -81,12 +81,12 @@ export default Base => Base.extend({
 			Action: this.ActionClass,
 			buildAction: raw => this.buildStoreAction(raw),				
 		});
-		if(this._actionableActionsInitialized || this._isActionsRegistered()) {
-			ActionStore.registerActions(this, actions);
-		} else {
-			this._actionsWaitingForRegister || (this._actionsWaitingForRegister = []);
-			this._actionsWaitingForRegister.push(...actions);
-		}
+		// if(this._actionableActionsInitialized || this._isActionsRegistered()) {
+		// 	ActionStore.registerActions(this, actions);
+		// } else {
+		// 	this._actionsWaitingForRegister || (this._actionsWaitingForRegister = []);
+		// 	this._actionsWaitingForRegister.push(...actions);
+		// }
 	},
 	registerAction(action){
 		if(!action) return;
