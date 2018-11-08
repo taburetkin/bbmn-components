@@ -31,42 +31,37 @@ function getFromPrototypes(instance, property, { exclude, process } = {}) {
 }
 
 
+function isProtoActionsRegistered(instance){
+	return instance.constructor.__protoActionsTaked == true;
+}
+function setProtoActionsAsRegistered(instance) {
+	instance.constructor.__protoActionsTaked = true;
+}
+
 
 export default Base => Base.extend({
 	_actionableMixin: true,
 	inheritActions: false,
 	ActionClass: undefined,
 
-	constructor(){
-		Base.apply(this, arguments);
-	},
-	_isActionsRegistered(){
-		return ActionStore.isExists(this);
-	},
 	_initializeActionableActions(){
-		if (this._actionableActionsInitialized) return;
+		let protoActionsTaked = isProtoActionsRegistered(this);
+		if (protoActionsTaked) return;
 
-		if (!this._isActionsRegistered()) {
-			let instance = betterResult(this, 'actions', { args: [this], default: [] });
-			let inherited = [];
-			let waiting = this._actionsWaitingForRegister || [];
-			if (this.inheritActions) {
-				let protoActions = getFromPrototypes(this, 'actions', {
-					exclude: this.actions,
-					process: actions => betterResult({ actions }, 'actions', { args: [this], default: [] })
-				});
-				inherited.push(..._.flatten(protoActions));
-				inherited = _.filter(inherited, f => f != null);
-			}
-
-			let rawactions = [...inherited, ...instance, ...waiting];
-
-			ActionStore.initialize(this, rawactions, {
-				Action: this.ActionClass,
-				buildAction: raw => this.buildStoreAction(raw),				
+		let instance = betterResult(this, 'actions', { args: [this], default: [] });
+		let inherited = [];
+		if (this.inheritActions) {
+			let protoActions = getFromPrototypes(this, 'actions', {
+				exclude: this.actions,
+				process: actions => betterResult({ actions }, 'actions', { args: [this], default: [] })
 			});
+			inherited.push(..._.flatten(protoActions));
+			inherited = _.filter(inherited, f => f != null);
 		}
-		this._actionableActionsInitialized = true;
+		let rawactions = [...inherited, ...instance];
+
+		this.registerActions(rawactions);
+		setProtoActionsAsRegistered(this);
 
 	},
 
@@ -80,13 +75,22 @@ export default Base => Base.extend({
 		}
 		return actions;
 	},
+
 	registerActions(...actions){
+		ActionStore.registerActions(this, actions, {
+			Action: this.ActionClass,
+			buildAction: raw => this.buildStoreAction(raw),				
+		});
 		if(this._actionableActionsInitialized || this._isActionsRegistered()) {
 			ActionStore.registerActions(this, actions);
 		} else {
 			this._actionsWaitingForRegister || (this._actionsWaitingForRegister = []);
 			this._actionsWaitingForRegister.push(...actions);
 		}
+	},
+	registerAction(action){
+		if(!action) return;
+		return this.registerActions([action]);
 	},
 	hasAction(arg, options){
 		let action = this.getAction(arg, options);

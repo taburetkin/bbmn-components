@@ -12,31 +12,48 @@ const Store = BaseClass.extend({
 		this.actions = [];
 		this.actionsByNames = [];
 	},
-	buildActions(actions = []){
-		let { actionsByNames, buildAction, name, ctor, Action } = this;
+	// buildActions(actions = []){
+	// 	let { actionsByNames, buildAction, name, ctor, Action } = this;
 
-		let options = { name, ctor, Action };
+	// 	let options = { name, ctor, Action };
 		
-		return _.reduce(actions, (passed, action) => {
+	// 	return _.reduce(actions, (passed, action) => {
 
-			action = this.buildAction(action, options);
-			if(_.isFunction(buildAction)){
-				action = buildAction(action, options);
-			}
-			if(!(action instanceof Action)){
-				action = new Action(action);
-			}
-			if (!(action.name in actionsByNames)) {
-				passed.push(action);
-				actionsByNames[action.name] = action;
-			}
-			return passed;
-		}, []);
-	},
+	// 		action = this.buildAction(action, options);
+	// 		if(_.isFunction(buildAction)){
+	// 			action = buildAction(action, options);
+	// 		}
+	// 		if(!(action instanceof Action)){
+	// 			action = new Action(action);
+	// 		}
+	// 		if (!(action.name in actionsByNames)) {
+	// 			passed.push(action);
+	// 			actionsByNames[action.name] = action;
+	// 		}
+	// 		return passed;
+	// 	}, []);
+	// },
 	buildAction: raw => raw,
 	registerActions(raw){
-		let actions = this.buildActions(raw);
-		this.actions.push(...actions);
+		_.each(raw, item => this.registerAction(item));
+	},
+	registerAction(raw){
+		let { actionsByNames, buildAction, Action } = this;
+		let options = _.pick(this, 'name', 'ctor', 'Action');
+
+		let action = this.buildAction(raw, options);
+		if(_.isFunction(buildAction)){
+			action = buildAction(action, options);
+		}
+		if (!action.name) return;
+		if(!(action instanceof Action)){
+			action = new Action(action);
+		}
+
+		if (!(action.name in actionsByNames)) {
+			actionsByNames[action.name] = action;
+			this.actions.push(action);
+		}
 	}
 });
 
@@ -58,12 +75,21 @@ const store = new ClassStore({
 		let store = this.createStore(...arguments);
 		return store.schema;
 	},
-
-	registerActions(arg, actions){
+	_preInit(arg, args){
 		let store = this.getStore(arg);
-		if(!store) return;
+		if(!store) {
+			store = this.createStore(arg, [], ...args);
+		}
+		return store;
+	},
+	registerActions(arg, actions, ...createArguments){
+		let store = this._preInit(arg, createArguments);
 		store.registerActions(actions);
 	},
+	registerAction(arg, action, ...createArguments){
+		let store = this._preInit(arg, createArguments);
+		store.registerAction(action);
+	},	
 
 	getActions(arg, options){
 		let cache = this.getStore(arg);
