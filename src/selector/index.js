@@ -39,7 +39,8 @@ const Selector = BaseSelector.extend({
 			return;
 		} else if(isCollection(this.source)) {
 			return;
-		}		
+		}
+		
 		let models = _.map(this.source, (value, ind) => {
 			if(_.isObject(value)) {
 				return value;
@@ -70,8 +71,9 @@ const Selector = BaseSelector.extend({
 		}, []);
 		this.selected = new Collection(selected);
 	},
-	_updateAll(models){
-		if(models == null) {
+	_updateAll(col){
+		let models = col && col.models;
+		if(!models) {
 			models = this.getSourceModels();
 		}
 		this.all.set(models, { remove: true, add: true, merge: true});
