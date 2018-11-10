@@ -1,7 +1,7 @@
 import _ from 'underscore';
 
 import { BaseClass, Events, isCollection } from 'bbmn-core';
-import { Collection } from 'backbone';
+import { Collection, Model } from 'backbone';
 import { mix, mergeOptions } from 'bbmn-utils';
 
 const trueFilter = () => true;
@@ -16,6 +16,7 @@ const Selector = BaseSelector.extend({
 		BaseSelector.apply(this, arguments);
 		this._initializeSource();
 		this._createCollections();
+		this._setupModel();
 	},
 	sourceFilter: trueFilter,
 	setSourceFilter(filter){
@@ -77,6 +78,12 @@ const Selector = BaseSelector.extend({
 			models = this.getSourceModels();
 		}
 		this.all.set(models, { remove: true, add: true, merge: true});
+	},
+	_setupModel(){
+		this.model = new Model();
+		this.on('change', () => {
+			this.model.set('count', this.getCount());
+		});
 	},
 
 	isSelected(arg){
