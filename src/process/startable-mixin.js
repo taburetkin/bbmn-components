@@ -97,7 +97,7 @@ export default Base => Base.extend({
 		return this['startable.status'] === 'started';
 	},
 	isStopped(){
-		return this['startable.status'] === 'stopped' || this['startable.status'] === 'iddle';
+		return this['startable.status'] == null || this['startable.status'] === 'stopped' || this['startable.status'] === 'iddle';
 	},
 	isNotIddle(){
 		return this['startable.status'] === 'stopping' || this['startable.status'] === 'starting';
