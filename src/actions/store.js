@@ -96,7 +96,7 @@ const store = new ClassStore({
 		if(!cache) return [];
 		var actions = _.filter(cache.actions, (action, index) => this.filter(action, index, options));
 		let { asModels, instance } = options;
-		if (asModels && instance) {
+		if (asModels) {
 			return _.map(actions, action => action.toModel(instance));
 		}
 		return actions;
