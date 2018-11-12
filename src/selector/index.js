@@ -282,6 +282,6 @@ const Selector = BaseSelector.extend({
 
 
 
-
+export * from './init-selector-mixin';
 
 export default Selector;
