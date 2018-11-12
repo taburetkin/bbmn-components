@@ -91,10 +91,15 @@ const store = new ClassStore({
 		store.registerAction(action);
 	},	
 
-	getActions(arg, options){
+	getActions(arg, options = {}){
 		let cache = this.getStore(arg);
 		if(!cache) return [];
-		return _.filter(cache.actions, (action, index) => this.filter(action, index, options));
+		var actions = _.filter(cache.actions, (action, index) => this.filter(action, index, options));
+		let { asModels, instance } = options;
+		if (asModels && instance) {
+			return _.map(actions, action => action.toModel(instance));
+		}
+		return actions;
 	},
 	getAction(store, action){
 		let cache = this.getStore(store);
