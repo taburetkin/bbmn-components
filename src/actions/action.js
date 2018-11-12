@@ -33,9 +33,9 @@ const ActionModel = Model.extend({
 		if (!this.action) {
 			throw new Error('no action under the hood');			
 		}
-		if(!this.instance) {
-			throw new Error('no instance defined');
-		}
+		// if(!this.instance) {
+		// 	throw new Error('no instance defined');
+		// }
 		return this.action.exec(this.instance, ...arguments);
 	}
 });
