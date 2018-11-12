@@ -10,7 +10,7 @@ function createExec(actionInstance, actionMethod){
 		}
 		
 		if (_.isFunction(actionMethod)) {
-			return actionMethod.apply(instance, args);
+			return instance ? actionMethod.apply(instance, args) : actionMethod(...args);
 		}
 		else {
 			return actionInstance.onActionMissing(instance);
