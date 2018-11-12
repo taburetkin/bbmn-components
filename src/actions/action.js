@@ -70,9 +70,9 @@ const Action = BaseClass.extend({
 	onActionMissing () { },
 
 	toModel(instance, attrs) {
-		if (instance == null)  {
-			throw new Error('instance undefined and action model must have one');
-		}
+		// if (instance == null)  {
+		// 	throw new Error('instance undefined and action model must have one');
+		// }
 		let hash = _.extend({
 			id: this.name, 
 			label: this.getLabel(), 
