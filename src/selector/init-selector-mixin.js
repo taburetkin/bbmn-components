@@ -1,6 +1,6 @@
 
 import _ from 'underscore';
-import { isView, takeFirst } from 'bbmn-utils';
+import { isView } from 'bbmn-utils';
 
 export const initSelectorMixin = Base => Base.extend({
 	constructor(){
@@ -9,46 +9,31 @@ export const initSelectorMixin = Base => Base.extend({
 	},
 	getSelector(){
 		return this.getOption('selector');
+	},	
+	buildChildView(child, ChildViewClass, childViewOptions = {}){
+		let selector = this.getSelector();
+		if(selector) {
+			_.extend(childViewOptions, {
+				selectable: true,
+				onCheckSelect(){
+					return selector.isSelected(this.model);
+				}
+			});
+		}
+		let view = Base.prototype.buildChildView(child, ChildViewClass, childViewOptions);
+		this.listenTo(view, 'toggle:select', this._handleChildviewToggleSelect);
+		return view;
 	},
 	_initializeSelector(){
 		if (this._selectorMixinInitialized) return;
 		let selector = this.getSelector();
 		if(selector){
-			this._setupSelectorListeners(selector);
-			this._setupChildViewOptions(selector);
+			this.listenTo(selector, 'change', changes => {
+				_.invoke(changes.selected, 'trigger', 'change');
+				_.invoke(changes.unselected, 'trigger', 'change');
+			});
 		}
 		this._selectorMixinInitialized = true;
-	},
-	_setupSelectorListeners(selector){
-		this.listenTo(selector, 'change', changes => {
-			_.invoke(changes.selected, 'trigger', 'change');
-			_.invoke(changes.unselected, 'trigger', 'change');
-		});
-
-		this.on('before:add:child', (colV, view) => {
-			this.listenTo(view, 'toggle:select', this._handleChildviewToggleSelect);
-		});
-	},
-	_setupChildViewOptions(selector, addOptions){
-		if(!selector) return;
-
-		let opts = takeFirst('childViewOptions', this.options, this);
-		let selectorOptions = {
-			selectable: true,
-			onCheckSelect(){
-				return selector.isSelected(this.model);
-			}
-		};
-		let options;
-		if(_.isFunction(opts)) {
-			options = (...args) => {
-				let compiled = opts.call(this, ...args);
-				return _.extend({}, compiled, selectorOptions, addOptions);
-			};
-		} else {
-			options = _.extend({}, opts, selectorOptions, addOptions);
-		}
-		this.childViewOptions = options;
 	},
 	_handleChildviewToggleSelect(arg1, arg2) {
 		let event = isView(arg1) ? arg2 : arg1;
