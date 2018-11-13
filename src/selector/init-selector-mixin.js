@@ -31,6 +31,7 @@ export const initSelectorMixin = Base => Base.extend({
 			this.listenTo(selector, 'change', changes => {
 				_.invoke(changes.selected, 'trigger', 'change');
 				_.invoke(changes.unselected, 'trigger', 'change');
+				this.triggerMethod('selector:change');
 			});
 		}
 		this._selectorMixinInitialized = true;
