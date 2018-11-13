@@ -1,10 +1,14 @@
 import config from './config.js';
 import _ from 'underscore';
 import { FooterView } from './views';
-import { takeFirst } from 'bbmn-utils';
+import { takeFirst, isView } from 'bbmn-utils';
 
 function show(opts = {}, showOptions = {}){
-
+	if(isView(opts)){
+		opts = {
+			content: opts
+		};
+	}
 	if(!opts.attributes){
 		opts.attributes = {
 			'data-modal': opts.modalType || ''
