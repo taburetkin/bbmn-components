@@ -17,7 +17,7 @@ export const initSelectorMixin = Base => Base.extend({
 				selectable: true,
 				onCheckSelect(){
 					return selector.isSelected(this.model);
-				}
+				},
 			});
 		}
 		let view = Base.prototype.buildChildView(child, ChildViewClass, childViewOptions);
@@ -42,8 +42,9 @@ export const initSelectorMixin = Base => Base.extend({
 	_handleChildviewToggleSelect(arg1, arg2) {
 		let event = isView(arg1) ? arg2 : arg1;
 		let view = isView(arg1) ? arg1 : arg2;
-		event.stopPropagation();
 		
+		event && event.stopPropagation();
+
 		let selector = this.getSelector();
 		if (!selector.isMultiple() || !this.lastClickedModel || !event.shiftKey) {
 			this.lastClickedModel = view.model;
