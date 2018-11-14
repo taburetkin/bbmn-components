@@ -15,9 +15,6 @@ export const initSelectorMixin = Base => Base.extend({
 		if(selector) {
 			_.extend(childViewOptions, {
 				selectable: true,
-				onCheckSelect(){
-					return selector.isSelected(this.model);
-				},
 			});
 		}
 		let view = Base.prototype.buildChildView(child, ChildViewClass, childViewOptions);
