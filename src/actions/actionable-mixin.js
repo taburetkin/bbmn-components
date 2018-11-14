@@ -68,7 +68,7 @@ export default Base => Base.extend({
 	buildStoreAction: action => action,
 	getActions(options = {}){
 		this._initializeActionableActions();
-		let actions = ActionStore.getActions(this, options);
+		let actions = ActionStore.getActions(this, _.extend({ instance: this }, options));
 		return actions;
 	},
 
