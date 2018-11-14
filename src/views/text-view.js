@@ -91,12 +91,7 @@ export const TextView = BackboneView.extend({
 		this.off();
 
 		this.remove();
-		
-		let keys = _.keys(this);
-		_.each(keys, key => {
-			delete this[key];
-		});
-	
+
 		this._isDestroyed = true;
 	
 		return this;
