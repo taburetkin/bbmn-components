@@ -18,10 +18,12 @@ export const initSelectorMixin = Base => Base.extend({
 			});
 		}
 		let view = Base.prototype.buildChildView(child, ChildViewClass, childViewOptions);
-		if (view.addCssClassModifier) {
-			view.addCssClassModifier(m => selector.isSelected(m) ? 'selected' : '');
+		if(selector) {
+			if (view.addCssClassModifier) {
+				view.addCssClassModifier(m => selector.isSelected(m) ? 'selected' : '');
+			}
+			this.listenTo(view, 'toggle:select', this._handleChildviewToggleSelect);
 		}
-		this.listenTo(view, 'toggle:select', this._handleChildviewToggleSelect);
 		return view;
 	},
 	_initializeSelector(){
