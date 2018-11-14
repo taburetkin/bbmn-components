@@ -40,10 +40,10 @@ export const initSelectorMixin = Base => Base.extend({
 		this._selectorMixinInitialized = true;
 	},
 	_handleChildviewToggleSelect(arg1, arg2) {
-		let event = isView(arg1) ? arg2 : arg1;
 		let view = isView(arg1) ? arg1 : arg2;
+		let event = isView(arg1) ? arg2 : arg1;
 		
-		event && event.stopPropagation();
+		event && event.stopPropagation && event.stopPropagation();
 
 		let selector = this.getSelector();
 		if (!selector.isMultiple() || !this.lastClickedModel || !event.shiftKey) {
