@@ -31,9 +31,9 @@ export default Schema.extend({
 	getDisplay(options){
 		return this._getByKey('display', options);
 	},
-	getLabel(value, allValues){
+	getLabel(model){
 		let label = this.getDisplay().label;
-		return betterResult({ label },'label', { context: this, args: [value, allValues] });
+		return betterResult({ label },'label', { context: model || this, args: [model] });
 	},
 	getEdit(options = {}){
 		let valueOptions = this.getType(options);

@@ -49,6 +49,7 @@ export default Schema.extend({
 		let properties = this.getProperties() || {};
 		let property = properties[name];
 		if(property || !create) {
+			
 			return property;
 		}
 		property = this._createProperty(name);

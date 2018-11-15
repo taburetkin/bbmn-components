@@ -20,7 +20,7 @@ export default Model => Model.extend({
 	displayLabel(key){
 		let property = this.getPropertySchema(key);
 		if (property) {
-			return property.getLabel();
+			return property.getLabel(this);
 		}
 	}
 });
