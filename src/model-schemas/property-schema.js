@@ -58,7 +58,10 @@ export default Schema.extend({
 					}
 				});
 			} else if (type.type == 'enum' && type.sourceValues) {
-				val = getFlag(type.sourceValues, val);
+				let sourceValues = betterResult({ sourceValues }, 'sourceValues', { context: model, args:[ model ]});
+				let result = getFlag(type.sourceValues, val);
+				if(result)
+					val = result;
 			}
 
 			if(isEmptyValue(val) && display.ifEmpty) {
