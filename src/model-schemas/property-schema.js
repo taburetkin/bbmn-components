@@ -33,7 +33,7 @@ export default Schema.extend({
 	},
 	getLabel(value, allValues){
 		let label = this.getDisplay().label;
-		return betterResult({ label },'label', { args: [value, allValues] });
+		return betterResult({ label },'label', { context: this, args: [value, allValues] });
 	},
 	getEdit(options = {}){
 		let valueOptions = this.getType(options);
