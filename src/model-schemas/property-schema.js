@@ -15,7 +15,7 @@ export default Schema.extend({
 		this.order = order;
 	},
 	_getByKey(key, options = {}){
-		let hash = betterResult(this.schema, key, { args: [options], default: {} });
+		let hash = betterResult(this.schema, key, { args: [options, {property:this,model:this.modelSchema}], default: {} });
 		return clone(hash, { functions: true });
 	},
 	getValidation(options) {
