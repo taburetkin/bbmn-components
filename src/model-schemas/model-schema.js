@@ -49,7 +49,7 @@ export default Schema.extend({
 		let properties = this.getProperties() || {};
 		let property = properties[name];
 		if(property || !create) {
-			
+
 			return property;
 		}
 		property = this._createProperty(name);
@@ -94,5 +94,13 @@ export default Schema.extend({
 	getLabel(name){
 		let property = this.getProperty(name);
 		return property && property.getLabel() || '';
+	},
+	onPropertyChange(property, opts = {}){
+		let arr = this.getPropertiesArray();
+		_.each(arr, prop => {
+			if(!prop.isDependedOn(property)) return;
+			prop.resetValues(opts);
+		});
 	}
+
 });

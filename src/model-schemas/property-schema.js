@@ -72,5 +72,32 @@ export default Schema.extend({
 			}
 		}
 		return val;
+	},
+	onPropertyChange(property, opts = {}){
+		if (this.modelSchema) {
+			this.modelSchema.triggerMethod('property:change', property, opts)
+		}
+	},
+	isDependedOn(name){
+		let depended = this.schema.dependedOn;
+		if(!depended) return false;
+		if(_.isString(depended)){
+			depended = depended.split(/\s*,\s*/g);
+		} else if(!_.isArray(depended) && _.isObject(depended)) {
+			depended = _.map(depended, val => val);
+		}
+
+		if(!_.isArray(depended)) {
+			return false;
+		}
+		return depended.indexOf(name) > -1;
+	},
+	resetValues(opts = {}){
+		let { model, allValues, silent } = opts;
+		if (model) {
+			model.set(this.name, undefined, { silent });
+		} else if(allValues) {
+			allValues[this.name] = undefined;
+		}
 	}
 });
