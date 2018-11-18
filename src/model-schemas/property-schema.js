@@ -104,7 +104,7 @@ export default Schema.extend({
 	resetValues(opts = {}, depended = {}){
 		let { model, allValues, silent } = opts;
 		let dependedValue = allValues[depended.name];
-		let value = betterResult(depended, 'value', { args:[ dependedValue ]});
+		let value = betterResult(depended, 'value', { args:[ depended, dependedValue ]});
 		if (model) {
 			model.set(this.name, value, { silent });
 		} else if(allValues) {
