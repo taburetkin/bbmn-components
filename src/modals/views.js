@@ -113,9 +113,19 @@ export const ModalView = BaseModalView.extend({
 		let options = this.defsOptionsForView(key,{ tagName });
 		let view = buildViewByKey(this, key, { TextView, options });
 
-		if(!view){
+		if(key === 'footer' && !view){
 			if (this.getOption('promiseBar')) {
 				view = new FooterView(options);
+				this.listenTo(view, {
+					'resolve': () => {
+						this.triggerMethod('resolve', this.modalChildren.content);
+						this.destroy();
+					},
+					'reject': () => {
+						this.triggerMethod('reject', this.modalChildren.content);
+						this.destroy();
+					},
+				});
 			}
 		}
 
