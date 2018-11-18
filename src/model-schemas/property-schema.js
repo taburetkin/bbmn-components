@@ -95,7 +95,7 @@ export default Schema.extend({
 		if(!name)
 			return depended;
 		else 
-			return _.findeWhere(depended, { name });
+			return _.findWhere(depended, { name });
 	},
 	isDependedOn(name){
 		let depended = this.getDependedOn(name);
