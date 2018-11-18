@@ -98,8 +98,9 @@ export default Schema.extend({
 	onPropertyChange(property, opts = {}){
 		let arr = this.getPropertiesArray();
 		_.each(arr, prop => {
-			if(!prop.isDependedOn(property)) return;
-			prop.resetValues(opts);
+			let depended = prop.getDependedOn(property);
+			if (!depended) return;
+			prop.resetValues(opts, depended);
 		});
 	}
 

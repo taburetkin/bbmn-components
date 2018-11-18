@@ -78,26 +78,37 @@ export default Schema.extend({
 			this.modelSchema.triggerMethod('property:change', property, opts)
 		}
 	},
-	isDependedOn(name){
+	getDependedOn(name){
 		let depended = this.schema.dependOn;
-		if(!depended) return false;
-		if(_.isString(depended)){
-			depended = depended.split(/\s*,\s*/g);
-		} else if(!_.isArray(depended) && _.isObject(depended)) {
-			depended = _.map(depended, val => val);
+		if (!depended) {
+			depended = [];
+		} else if (_.isString(depended)) {
+			depended = depended.split(/\s*,\s*/g).map(name => ({ name }));
+		} else if (!_.isArray(depended) && _.isObject(depended)) {
+			depended = _.map(depended, (value, name) => {
+				value.name = name;
+				return value;
+			});
+		} else {
+			depended = [];
 		}
-
-		if(!_.isArray(depended)) {
-			return false;
-		}
-		return depended.indexOf(name) > -1;
+		if(!name)
+			return depended;
+		else 
+			return depended.findeWhere({ name });
 	},
-	resetValues(opts = {}){
+	isDependedOn(name){
+		let depended = this.getDependedOn(name);
+		return !!depended;
+	},
+	resetValues(opts = {}, depended = {}){
 		let { model, allValues, silent } = opts;
+		let dependedValue = allValues[depended.name];
+		let value = betterResult(depended, 'value', { args:[ dependedValue ]});
 		if (model) {
-			model.set(this.name, undefined, { silent });
+			model.set(this.name, value, { silent });
 		} else if(allValues) {
-			allValues[this.name] = undefined;
+			allValues[this.name] = value;
 		}
 	}
 });
