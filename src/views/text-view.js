@@ -78,7 +78,7 @@ export const TextView = BackboneView.extend({
 		let val = this.model.get(this.property);
 		let useDisplay = this.getOption('displayInsteadGet');
 		if (useDisplay && this.schema) {
-			return this.schema.getDisplayValue(val, this.model);
+			return this.schema.getDisplayValue(val, this.model, { allValues: this.getOption('allValues') });
 		} else {
 			return val;
 		}

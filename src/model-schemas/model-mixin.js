@@ -1,3 +1,4 @@
+import _ from 'underscore';
 import ModelSchemas from './store.js';
 export default Model => Model.extend({
 	getSchema(){
@@ -9,10 +10,10 @@ export default Model => Model.extend({
 			return schema.getProperty(key);
 		}
 	},
-	display(key, options){
+	display(key, options = {}){
 		let value = this.get(...arguments);
 		let property = this.getPropertySchema(key);
-		if (property) {
+		if (property) {			
 			return property.getDisplayValue(value, this, options);
 		}
 		return value;

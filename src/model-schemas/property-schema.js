@@ -45,9 +45,11 @@ export default Schema.extend({
 	},
 	// accepts: value, model, options
 	getDisplayValue(val, model, options = {}){
-		let display = this.getDisplay();
-		let type = this.getType();
-		options = _.extend({ model, display, type, property: this });
+		_.defaults(options, { value: val, allValues: model && model.toJSON && model.toJSON(), model });
+		let display = this.getDisplay(options);
+		let type = this.getType(options);
+
+		options = _.extend(options, { display, type, property: this });
 		if (display) {
 			if (_.isFunction(display.transform)) {
 				val = display.transform.call(model, val, options);
