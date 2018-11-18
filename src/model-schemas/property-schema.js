@@ -79,7 +79,7 @@ export default Schema.extend({
 		}
 	},
 	isDependedOn(name){
-		let depended = this.schema.dependedOn;
+		let depended = this.schema.dependOn;
 		if(!depended) return false;
 		if(_.isString(depended)){
 			depended = depended.split(/\s*,\s*/g);
