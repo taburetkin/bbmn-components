@@ -40,6 +40,9 @@ const Process = BaseClass.extend({
 	_mergeOptions(opts = {}){
 		let options = _.omit(opts, 'cid', 'name', 'context', 'cancelPromise', 'cancel', 'errors');
 		_(options).each((value, key) => this[key] = value);
+		if (this.exposeSelf == null) {
+			this.exposeSelf = true;
+		}
 	},
 
 	
@@ -221,8 +224,12 @@ const Process = BaseClass.extend({
 			return;
 		
 		let event = (eventName ? eventName + ':' : '') + this.name;
-		
-		return triggerMethodOn(context, event, this, ...this.args);
+		let triggerArgs = [context, event];
+		if (this.exposeSelf) {
+			triggerArgs.push(this);
+		}
+		triggerArgs.push(...this.args);
+		return triggerMethodOn(...triggerArgs);
 	
 	},
 

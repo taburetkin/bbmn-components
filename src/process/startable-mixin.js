@@ -4,7 +4,7 @@ import { getOption } from 'bbmn-utils';
 
 const defaultStartableOptions  = {
 	concurrent: false,
-
+	exposeSelf: true,
 	//good place to supply own state collecting logic
 	storeState(){
 
