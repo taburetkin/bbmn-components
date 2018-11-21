@@ -88,7 +88,8 @@ export default Model.extend({
 		let { silent, clear, store = true } = opts;
 		clear && this.clear();
 		store && this.store(clear);
-		!silent && this.trigger('changed', this, opts);
+		let options = _.omit(opts, 'clear', 'store');
+		!silent && this.trigger('changed', this, options);
 	},
 	isMe(arg){
 		let me = this.get(this.idAttribute);
