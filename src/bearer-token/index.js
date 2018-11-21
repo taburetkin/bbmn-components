@@ -98,13 +98,13 @@ const Token = Model.extend({
 		return data;
 	},
 
-	fetch(options = {}){
+	fetch(options = {}, userOptions){
 		if(this._fetching) return this._fetching;		
 		this._fetching = nativeAjax(options).then(
 			(json) => {
 
 				let parsed = this.parse(_.clone(json));
-				this.update(parsed);
+				this.update(parsed, userOptions);
 				delete this._fetching;
 				return Promise.resolve(json);
 			}, 
@@ -113,7 +113,7 @@ const Token = Model.extend({
 				delete this._fetching;
 				
 				options.clearOnFail !== false 
-					&& this.update(null);
+					&& this.update(null, userOptions);
 
 				let error = this.handleError(xhr);
 				if(error){
@@ -250,12 +250,12 @@ const Token = Model.extend({
 			return true;
 		return date.valueOf() < Date.now() + (this.secondsOffset * 1000);
 	},
-	login(username, password){
+	login(username, password, opts){
 
 		let options = this.getFlow('password');
 		options.data = { grant_type:'password', username, password };
 		options.clearOnFail = false;
-		return this.fetch(options);
+		return this.fetch(options, opts);
 
 	},
 
