@@ -152,7 +152,8 @@ const Token = Model.extend({
 			_(unset).each(key => this.unset(key, { silent }));
 		}
 
-		this.reflectTokenChanges();
+		let reflectOptions = _.extend({}, _.omit(opts, 'silent', 'store'));
+		this.reflectTokenChanges(reflectOptions);
 
 	},
 
@@ -182,8 +183,10 @@ const Token = Model.extend({
 		this.replaceBackboneAjax();
 		if (store)
 			this.storeToken();
-		if (!silent)
-			this.trigger('changed');
+		if (!silent) {
+			let options = _.omit(opts, 'silent', 'store');
+			this.trigger('changed', options);
+		}
 	},
 
 	ajax(...args){

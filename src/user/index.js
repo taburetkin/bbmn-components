@@ -46,13 +46,13 @@ export default Model.extend({
 
 		return this.ready;
 	},
-	logoff(){
+	logoff(options){
 		return new Promise((resolve) => {
 			this.once('changed', () => resolve());
 			if (this.token) {
-				this.token.update();
+				this.token.update(undefined, options);
 			} else {
-				this.reflectChanges({ clear: true });
+				this.reflectChanges(_.extend({}, options, { clear: true }));
 			}
 		});
 	},
@@ -63,18 +63,18 @@ export default Model.extend({
 	isLogged(){
 		return this.get('authenticated') === true;
 	},
-	refresh(){		
+	refresh(tokenOptions){		
 		if (this._refreshing) { return this._refreshing; }
 		let promise = this._refreshing = new Promise((resolve) => {
 			if (!this.token.hasToken()) {
-				this.reflectChanges({ clear: true });
+				this.reflectChanges(_.extend({}, tokenOptions, { clear: true }));
 				resolve();
 			} else {
 				this.fetch().then(() => {
-					this.reflectChanges();
+					this.reflectChanges(tokenOptions);
 					resolve();
 				}, () => {				
-					this.reflectChanges({ store: false });
+					this.reflectChanges(_.extend({}, tokenOptions, { store: false }));
 					resolve();
 				});
 			}
@@ -88,7 +88,7 @@ export default Model.extend({
 		let { silent, clear, store = true } = opts;
 		clear && this.clear();
 		store && this.store(clear);
-		!silent && this.trigger('changed',this);
+		!silent && this.trigger('changed', this, opts);
 	},
 	isMe(arg){
 		let me = this.get(this.idAttribute);
