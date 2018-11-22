@@ -81,6 +81,7 @@ const Selector = BaseSelector.extend({
 	},
 	_setupModel(){
 		this.model = new Model();
+		this.model.clear = () => this.clear();
 		this.on('change', () => {
 			this.model.set('count', this.getCount());
 		});
