@@ -25,7 +25,7 @@ const NotifyModel = Model.extend({
 	},
 	_setTimeout(name){
 		let delay = this.get(name + 'Delay');
-		if (!_.isNumber(delay)) { return; }
+		if (!_.isNumber(delay) || delay === 0) { return; }
 		let timeoutKey = name + 'Timeout';
 		this[timeoutKey] = setTimeout(() => {
 			this[name]();
