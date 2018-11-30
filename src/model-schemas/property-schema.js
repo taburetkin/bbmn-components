@@ -45,12 +45,14 @@ export default Schema.extend({
 	},
 	// accepts: value, model, options
 	getDisplayValue(val, model, options = {}){
+
 		_.defaults(options, { value: val, allValues: model && model.toJSON && model.toJSON(), model });
 		let display = this.getDisplay(options);
 		let type = this.getType(options);
 
 		options = _.extend(options, { display, type, property: this });
 		if (display) {
+			
 			if (_.isFunction(display.transform)) {
 				val = display.transform.call(model, val, options);
 			} else if (type.type == 'boolean' && type.sourceValues) {
@@ -67,8 +69,10 @@ export default Schema.extend({
 					val = result;
 			}
 
-			if(isEmptyValue(val) && display.ifEmpty) {
+			if (isEmptyValue(val) && display.ifEmpty) {
 				val = display.ifEmpty;
+			} else if (!isEmptyValue(val) && display.ifNotEmpty) {
+				val = display.ifNotEmpty;
 			}
 		}
 		return val;
