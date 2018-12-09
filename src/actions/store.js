@@ -5,6 +5,7 @@ import ClassStore from '../class-store';
 
 const BaseActionStore = BaseClass.extend({
 	constructor(options = {}){
+		BaseClass.apply(this, arguments)
 		_.extend(this, options);
 		if(!_.isFunction(this.buildAction)){
 			this.buildAction = i => i;

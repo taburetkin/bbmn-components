@@ -47,10 +47,11 @@ const Action = BaseClass.extend({
 	constructor(options = {}){
 		let { action } = options;
 		delete options.action;
-
 		_.extend(this, _.pick(options, ...instanceProperties));
-
+		
 		this.options = _.omit(options, ...instanceProperties);
+		
+		BaseClass.apply(this, arguments);
 
 		this.exec = createExec(this, action);
 	},
