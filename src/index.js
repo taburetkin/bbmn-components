@@ -12,6 +12,8 @@ import { Action, ActionStore, actionableMixin, action } from './actions';
 import modals from './modals';
 import {default as Selector, initSelectorMixin } from './selector';
 
+export {default as ClassStore } from './class-store';
+
 export {
 	Process, startableMixin,
 	App,
