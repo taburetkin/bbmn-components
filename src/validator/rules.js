@@ -1,12 +1,12 @@
 import _ from 'underscore';
-import { isEmptyValue as isEmpty } from 'bbmn-utils';
+import { isEmptyValue } from 'bbmn-utils';
 
 const rules = [
 	{
 		name: 'required',
 		message: 'required',
 		validate: (value) => {
-			if (isEmpty(value)) {
+			if (isEmptyValue(value)) {
 				return 'required';
 			}
 		}
@@ -16,7 +16,7 @@ const rules = [
 		message: 'not a email',
 		validate: (value) => {
 			
-			if(isEmpty(value)) { return; }
+			if(isEmptyValue(value)) { return; }
 
 			if (!_.isString(value)) {
 				return 'type:mismatch';
@@ -114,7 +114,7 @@ const rules = [
 		validate: (value, { minValue } = {}) => {
 			if (_.isNumber(minValue)) {
 				let numValue = parseFloat(value, 10);
-				if (isEmpty(numValue) || numValue < minValue) {
+				if (isEmptyValue(numValue) || numValue < minValue) {
 					return 'min:value';
 				}
 			}
@@ -126,7 +126,7 @@ const rules = [
 		validate: (value, { maxValue } = {}) => {
 			if (_.isNumber(maxValue)) {
 				let numValue = parseFloat(value, 10);
-				if (isEmpty(numValue) || numValue > maxValue) {
+				if (isEmptyValue(numValue) || numValue > maxValue) {
 					return 'max:value';
 				}
 			}			
@@ -138,7 +138,7 @@ const rules = [
 		validate: (value, { pattern } = {}) => {
 			value = (value || '').toString();
 
-			if(_.isString(pattern) && !isEmpty(pattern)) {
+			if(_.isString(pattern) && !isEmptyValue(pattern)) {
 				pattern = new RegExp(pattern);
 			}
 			if(!_.isRegExp(pattern)) { return; }

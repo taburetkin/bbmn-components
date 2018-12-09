@@ -1,5 +1,5 @@
 import _ from 'underscore';
-import { triggerMethodOn, camelCase, betterResult as result } from 'bbmn-utils';
+import { triggerMethodOn, camelCase, betterResult } from 'bbmn-utils';
 import { isPromisable, race, asArray, valueToPromise } from './helpers.js';
 import { BaseClass } from 'bbmn-core';
 
@@ -238,7 +238,7 @@ const Process = BaseClass.extend({
 		let method = camelCase(methodName);
 		let context = this.context;
 		let args = this.args;
-		return result(context, method, { args });
+		return betterResult(context, method, { args });
 
 	}
 
