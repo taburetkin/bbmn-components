@@ -1,9 +1,9 @@
 import _ from 'underscore';
-import BaseClass from 'bbmn-core';
+import { BaseClass } from 'bbmn-core';
 import BaseAction from './action.js';
 import ClassStore from '../class-store';
 
-const Store = BaseClass.extend({
+const BaseActionStore = BaseClass.extend({
 	constructor(options = {}){
 		_.extend(this, options);
 		if(!_.isFunction(this.buildAction)){
@@ -12,27 +12,6 @@ const Store = BaseClass.extend({
 		this.actions = [];
 		this.actionsByNames = [];
 	},
-	// buildActions(actions = []){
-	// 	let { actionsByNames, buildAction, name, ctor, Action } = this;
-
-	// 	let options = { name, ctor, Action };
-		
-	// 	return _.reduce(actions, (passed, action) => {
-
-	// 		action = this.buildAction(action, options);
-	// 		if(_.isFunction(buildAction)){
-	// 			action = buildAction(action, options);
-	// 		}
-	// 		if(!(action instanceof Action)){
-	// 			action = new Action(action);
-	// 		}
-	// 		if (!(action.name in actionsByNames)) {
-	// 			passed.push(action);
-	// 			actionsByNames[action.name] = action;
-	// 		}
-	// 		return passed;
-	// 	}, []);
-	// },
 	buildAction: raw => raw,
 	registerActions(raw){
 		_.each(raw, item => this.registerAction(item));
@@ -66,7 +45,7 @@ const store = new ClassStore({
 	buildStore(context, actions = [], { Action, buildAction } = {}) {
 		Action || (Action = this.Action);
 		let { ctor, name } = context;
-		let store = new Store({ name, ctor, buildAction, Action });
+		let store = new BaseActionStore({ name, ctor, buildAction, Action });
 		store.registerActions(actions);		
 		return store;
 	},

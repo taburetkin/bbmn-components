@@ -1,4 +1,3 @@
-import _ from 'underscore';
 import ModelSchemas from './store.js';
 export default Model => Model.extend({
 	getSchema(){

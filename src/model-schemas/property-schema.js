@@ -79,7 +79,7 @@ export default Schema.extend({
 	},
 	onPropertyChange(property, opts = {}){
 		if (this.modelSchema) {
-			this.modelSchema.triggerMethod('property:change', property, opts)
+			this.modelSchema.triggerMethod('property:change', property, opts);
 		}
 	},
 	getDependedOn(name){
