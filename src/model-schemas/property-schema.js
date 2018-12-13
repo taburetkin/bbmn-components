@@ -70,7 +70,7 @@ export default Schema.extend({
 			}
 
 			if (isEmptyValue(val) && display.ifEmpty) {
-				val = display.ifEmpty;
+				val = betterResult(display, 'ifEmpty', { context: model, args: [model, options] });
 			} else if (!isEmptyValue(val) && display.ifNotEmpty) {
 				val = display.ifNotEmpty;
 			}
