@@ -56,6 +56,11 @@ export default Schema.extend({
 			if (_.isFunction(display.transform)) {
 				val = display.transform.call(model, val, options);
 			} else if (type.type == 'boolean' && type.sourceValues) {
+
+				if (_.isString(val)) {
+					val = toBool(val);
+				}
+
 				_.some(type.sourceValues, (label, key) => {
 					if(toBool(key) === val) {
 						val = label;
