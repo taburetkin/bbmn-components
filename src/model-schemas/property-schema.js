@@ -69,9 +69,9 @@ export default Schema.extend({
 					val = result;
 			}
 
-			if (isEmptyValue(val) && display.ifEmpty) {
+			if (isEmptyValue(val) && display.ifEmpty && !options.ignoreIfEmpty) {
 				val = betterResult(display, 'ifEmpty', { context: model, args: [model, options] });
-			} else if (!isEmptyValue(val) && display.ifNotEmpty) {
+			} else if (!isEmptyValue(val) && display.ifNotEmpty && !options.ignoreIfNotEmpty) {
 				val = display.ifNotEmpty;
 			}
 		}
