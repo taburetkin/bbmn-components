@@ -43,6 +43,11 @@ export default BaseApp.extend({
 	isRendered(){
 		return this.layoutView && this.layoutView.isRendered();
 	},
+	render(){
+		this.triggerMethod('before:layout:render');
+		this.renderLayout();
+		this.triggerMethod('layout:render');
+	},
 	renderLayout(options){
 		if (!this.layoutView) {
 			let layout = this.buildLayout(options);
