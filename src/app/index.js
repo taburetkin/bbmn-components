@@ -40,14 +40,17 @@ export default BaseApp.extend({
 			return callback.apply(this, args);
 		});
 	},
+	isRendered(){
+		return this.layoutView && this.layoutView.isRendered();
+	},
 	renderLayout(options){
 		if (!this.layoutView) {
 			let layout = this.buildLayout(options);
 			if(!layout) { return; }
+			let region = this.getRegion();
+			region.show(this.layoutView);
 			this.layoutView = layout;
 		}
-		let region = this.getRegion();
-		region.show(this.layoutView);
 		return this.layoutView;
 	},
 	buildLayout(options){
