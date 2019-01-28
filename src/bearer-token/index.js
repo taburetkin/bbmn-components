@@ -98,8 +98,8 @@ const Token = Model.extend({
 		return data;
 	},
 
-	fetch(options = {}, userOptions){
-		if(this._fetching) return this._fetching;		
+	fetch(options = {}, userOptions ) {
+		if (this._fetching) return this._fetching;		
 		this._fetching = nativeAjax(options).then(
 			(json) => {
 
@@ -119,6 +119,7 @@ const Token = Model.extend({
 				if(error){
 
 					return Promise.reject(error);
+					
 				} else {
 					return Promise.reject(xhr);
 				}

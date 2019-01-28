@@ -69,15 +69,19 @@ export default Model.extend({
 	refresh(tokenOptions){		
 		if (this._refreshing) { return this._refreshing; }
 		let promise = this._refreshing = new Promise((resolve) => {
+			
+			let currentAttrs = _.clone(this.attributes);
+
 			if (!this.hasToken()) {
-				this.reflectChanges(_.extend({}, tokenOptions, { clear: true }));
+				this.reflectChanges(_.extend({}, tokenOptions, { clear: true }), currentAttrs);
 				resolve();
 			} else {
+				
 				this.fetch().then(() => {
-					this.reflectChanges(tokenOptions);
+					this.reflectChanges(tokenOptions, currentAttrs);
 					resolve();
 				}, () => {				
-					this.reflectChanges(_.extend({}, tokenOptions, { store: false }));
+					this.reflectChanges(_.extend({}, tokenOptions, { store: false }), currentAttrs);
 					resolve();
 				});
 			}
@@ -87,13 +91,15 @@ export default Model.extend({
 		});
 		return promise;
 	},
-	reflectChanges(opts = {}){
+	reflectChanges(opts = {}, prevAttrs){
 		let { silent, clear, store = true } = opts;
 		clear && this.clear();
 		store && this.store(clear);
 		let options = _.omit(opts, 'clear', 'store');
 		!silent && this.trigger('changed', this, options);
+		this.afterReflectChanges(prevAttrs, opts);
 	},
+	afterReflectChanges(prevAttrs, opts) {},
 	isMe(arg){
 		let me = this.get(this.idAttribute);
 		return _.isEqual(me, arg);
