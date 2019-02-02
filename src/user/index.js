@@ -27,6 +27,9 @@ export default Model.extend({
 	},
 	initializeToken(opts = {}){
 		let { token } = opts;
+		if (!token) {
+			token = this.token;
+		}
 		if (!token) return;
 		this.listenTo(token, 'changed', this.refresh);
 		this.token = token;
